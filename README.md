@@ -1,0 +1,2 @@
+# MicroInsurancePlatform
+A team project
