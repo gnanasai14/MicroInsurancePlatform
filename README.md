@@ -1,8 +1,8 @@
-On-Demand Micro Insurance Platform (OD-MIP)
+**On-Demand Micro Insurance Platform (OD-MIP)
 
 A Team Project
 
-Overview
+Overview**
 
 The On-Demand Micro Insurance Platform (OD-MIP) is a cloud-native,
 microservices-based application that enables customers to purchase
