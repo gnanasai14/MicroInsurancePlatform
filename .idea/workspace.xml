@@ -4,104 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afa8ecf-dcd7-4c4a-ab18-397e09fc9c6c" name="Changes" comment="Commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="feature/claims-service-new" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "gnanasai14"
   }
-}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/gnanasai14/MicroInsurancePlatform.git&quot;,
-    &quot;accountId&quot;: &quot;a6ceb665-40d1-4586-90a9-a6a0a5404bb0&quot;
   }
 }</component>
-  <component name="KubernetesApiPersistence">{}</component>
-  <component name="KubernetesApiProvider">{
-  &quot;isMigrated&quot;: true
 }</component>
-  <component name="McpProjectServerCommands">
-    <commands />
-    <urls />
-  </component>
-  <component name="NextEditCompletionFeaturesState">
-    <decayedCancelled>
-      <entry key="MS100" value="1.01733702300106" />
-      <entry key="MS500" value="1.4444213413039262" />
-      <entry key="S2" value="1.82179737419871" />
-      <entry key="S5" value="2.0989334536539026" />
-      <entry key="S10" value="2.8905139561674043" />
-      <entry key="S30" value="6.5500724652957345" />
-      <entry key="S60" value="9.504180693734646" />
-      <entry key="M2" value="11.81369278673437" />
-      <entry key="M5" value="13.598907850344077" />
-      <entry key="M10" value="14.276250343873432" />
-      <entry key="M15" value="14.512174052931481" />
-      <entry key="M30" value="14.753380068561786" />
-      <entry key="H1" value="14.876004932632023" />
-      <entry key="H2" value="14.937830133496686" />
-      <entry key="H4" value="14.96887185060123" />
-      <entry key="D1" value="14.994805961538056" />
-      <entry key="W1" value="14.999257847086678" />
-    </decayedCancelled>
-    <decayedSelected>
-      <entry key="MS100" value="3.896699770617145E-219" />
-      <entry key="MS500" value="2.080364284267096E-44" />
-      <entry key="S2" value="1.2009774342188856E-11" />
-      <entry key="S5" value="4.2836496033316745E-5" />
-      <entry key="S10" value="0.006544959589891811" />
-      <entry key="S30" value="0.1870548571735357" />
-      <entry key="S60" value="0.4324983897929976" />
-      <entry key="M2" value="0.6576460976794416" />
-      <entry key="M5" value="0.8456621617473378" />
-      <entry key="M10" value="0.9195989135200944" />
-      <entry key="M15" value="0.9456540778455137" />
-      <entry key="M30" value="0.9724474679104849" />
-      <entry key="H1" value="0.9861275109794294" />
-      <entry key="H2" value="0.9930395314283467" />
-      <entry key="H4" value="0.9965136885303411" />
-      <entry key="D1" value="0.9994181022323518" />
-      <entry key="W1" value="0.9999168510090886" />
-    </decayedSelected>
-    <decayedShown>
-      <entry key="MS100" value="0.7741781479363193" />
-      <entry key="MS500" value="1.3534962687773857" />
-      <entry key="S2" value="1.7850946969539405" />
-      <entry key="S5" value="1.9849326940410938" />
-      <entry key="S10" value="2.665934394522836" />
-      <entry key="S30" value="6.440751452664059" />
-      <entry key="S60" value="9.70074760080865" />
-      <entry key="M2" value="12.318465245640173" />
-      <entry key="M5" value="14.37249370939002" />
-      <entry key="M10" value="15.157724525833938" />
-      <entry key="M15" value="15.4319260262511" />
-      <entry key="M30" value="15.712627953134088" />
-      <entry key="H1" value="15.85546942286363" />
-      <entry key="H2" value="15.927522208164698" />
-      <entry key="H4" value="15.963707806633673" />
-      <entry key="D1" value="15.993943884066676" />
-      <entry key="W1" value="15.999134658748273" />
-    </decayedShown>
-  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5,
   &quot;fromUser&quot;: false
 }</component>
-  <component name="ProjectId" id="3GFGNzjvjy3XwnK13q3xBkmfPT0" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -113,39 +33,18 @@
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "Spring Boot.ClaimsServiceApplication.executor": "Run",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/gnana/IdeaProjects/claims-service",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
-    ]
   }
 }]]></component>
   <component name="RunManager">
-    <configuration name="ClaimsServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="claims-service" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.odmip.claims.ClaimsServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -154,65 +53,17 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.26222.65" />
-        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.26222.65" />
       </set>
     </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="9afa8ecf-dcd7-4c4a-ab18-397e09fc9c6c" name="Changes" comment="" />
-      <created>1783559868023</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1783559868023</updated>
-      <workItem from="1783559869221" duration="1412000" />
-      <workItem from="1783563184607" duration="1297000" />
-      <workItem from="1783645044871" duration="4812000" />
-      <workItem from="1783827747227" duration="3000" />
-      <workItem from="1784051965625" duration="1220000" />
-      <workItem from="1784067072063" duration="1252000" />
-      <workItem from="1784317471243" duration="76000" />
     </task>
-    <task id="LOCAL-00001" summary="Commit">
-      <option name="closed" value="true" />
-      <created>1784083062251</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1784083062252</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="Develop" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit" />
   </component>
 </project>
