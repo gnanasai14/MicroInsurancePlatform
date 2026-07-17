@@ -3,6 +3,7 @@ package com.odmip.claims;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Claims, Risk & Notifications
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = "com.odmip") // pulls in shared GlobalExceptionHandler from `common`
+@EnableScheduling
 public class ClaimsServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ClaimsServiceApplication.class, args);

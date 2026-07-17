@@ -40,6 +40,8 @@ public class Claim {
     @Column(nullable = false)
     private ClaimStatus status;
 
+    private Boolean policyValidated;
+
     @Column(updatable = false)
     private LocalDateTime submittedAt;
 

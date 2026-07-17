@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface FraudFlagRepository extends JpaRepository<FraudFlag, Long> {
     List<FraudFlag> findByClaimId(Long claimId);
+    long countByClaimIdIn(List<Long> claimIds);
 }

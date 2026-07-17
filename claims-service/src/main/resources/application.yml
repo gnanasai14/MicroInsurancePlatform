@@ -18,7 +18,7 @@ odmip:
   services:
     user-service-url: http://localhost:8081
   sns:
-    enabled: false                # flip to true once AWS creds + topic ARNs exist
+    enabled: true
     claim-events-topic-arn: "arn:aws:sns:us-east-1:000000000000:odmip-claim-events"
     fraud-events-topic-arn: "arn:aws:sns:us-east-1:000000000000:odmip-fraud-events"
     region: us-east-1
