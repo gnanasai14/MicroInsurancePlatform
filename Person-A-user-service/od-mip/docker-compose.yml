@@ -1,0 +1,59 @@
+version: "3.8"
+
+# Brings up Postgres + all three services together, wired to talk to each
+# other by service name instead of localhost. Use this AFTER all 3 people
+# have pushed to main and you want to sanity-check the integrated system.
+# Each person can keep using local H2 + `mvn spring-boot:run` day-to-day.
+#
+# Usage:
+#   mvn clean package -DskipTests            (from repo root, builds all jars)
+#   docker compose up --build
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_MULTIPLE_DATABASES: odmip_users,odmip_pricing,odmip_claims
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/odmip_users
+    depends_on:
+      - postgres
+
+  pricing-service:
+    build: ./pricing-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/odmip_pricing
+      ODMIP_SERVICES_USER-SERVICE-URL: http://user-service:8081
+    depends_on:
+      - postgres
+      - user-service
+
+  claims-service:
+    build: ./claims-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/odmip_claims
+      ODMIP_SERVICES_USER-SERVICE-URL: http://user-service:8081
+    depends_on:
+      - postgres
+      - user-service
+
+volumes:
+  pgdata:
