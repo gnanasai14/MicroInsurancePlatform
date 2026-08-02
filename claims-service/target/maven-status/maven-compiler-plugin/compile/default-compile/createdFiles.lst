@@ -8,6 +8,7 @@ com\odmip\common\exception\ResourceNotFoundException.class
 com\odmip\claims\entity\ClaimValidationRetry$ClaimValidationRetryBuilder.class
 com\odmip\common\event\ClaimStatusChangedEvent.class
 com\odmip\claims\entity\ClaimStatus.class
+com\odmip\claims\repository\ClaimSpecification.class
 com\odmip\claims\service\RiskScoringService.class
 com\odmip\claims\config\DatabaseSeeder.class
 com\odmip\claims\dto\ClaimSubmitRequest.class

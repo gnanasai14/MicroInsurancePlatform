@@ -58,7 +58,17 @@ public class ClaimController {
 
     @GetMapping("/analytics")
     @Operation(summary = "Get claims & fraud analytics dashboard metrics")
-    public ApiResponse<ClaimsAnalyticsDTO> getAnalytics() {
-        return ApiResponse.ok(analyticsService.getAnalytics());
+    public ApiResponse<ClaimsAnalyticsDTO> getAnalytics(
+            @RequestParam(required = false) ClaimStatus status,
+            @RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.LocalDateTime startDate,
+            @RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.LocalDateTime endDate
+    ) {
+        return ApiResponse.ok(analyticsService.getAnalytics(status, startDate, endDate));
+    }
+
+    @GetMapping("/{id}/notifications")
+    @Operation(summary = "Get notification delivery audits for a specific claim")
+    public ApiResponse<List<com.odmip.claims.entity.NotificationAudit>> getClaimNotifications(@PathVariable Long id) {
+        return ApiResponse.ok(claimService.getNotificationAudits(id));
     }
 }

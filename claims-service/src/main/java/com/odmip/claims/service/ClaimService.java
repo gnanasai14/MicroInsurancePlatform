@@ -7,8 +7,10 @@ import com.odmip.claims.entity.ClaimStatus;
 import com.odmip.claims.entity.ClaimValidationRetry;
 import com.odmip.claims.entity.FraudFlag;
 import com.odmip.claims.notification.NotificationPublisher;
+import com.odmip.claims.entity.NotificationAudit;
 import com.odmip.claims.repository.ClaimRepository;
 import com.odmip.claims.repository.ClaimValidationRetryRepository;
+import com.odmip.claims.repository.NotificationAuditRepository;
 import com.odmip.common.event.ClaimStatusChangedEvent;
 import com.odmip.common.event.FraudFlaggedEvent;
 import com.odmip.common.exception.BusinessRuleException;
@@ -51,11 +53,13 @@ public class ClaimService {
     private final NotificationPublisher notificationPublisher;
     private final PolicyServiceClient policyServiceClient;
     private final ClaimValidationRetryRepository retryRepository;
+    private final NotificationAuditRepository notificationAuditRepository;
 
     public ClaimService(ClaimRepository claimRepository, ClaimValidationService validationService,
                          RiskScoringService riskScoringService, FraudDetectionService fraudDetectionService,
                          NotificationPublisher notificationPublisher, PolicyServiceClient policyServiceClient,
-                         ClaimValidationRetryRepository retryRepository) {
+                         ClaimValidationRetryRepository retryRepository,
+                         NotificationAuditRepository notificationAuditRepository) {
         this.claimRepository = claimRepository;
         this.validationService = validationService;
         this.riskScoringService = riskScoringService;
@@ -63,6 +67,7 @@ public class ClaimService {
         this.notificationPublisher = notificationPublisher;
         this.policyServiceClient = policyServiceClient;
         this.retryRepository = retryRepository;
+        this.notificationAuditRepository = notificationAuditRepository;
     }
 
     public Claim submit(ClaimSubmitRequest req) {
@@ -168,5 +173,10 @@ public class ClaimService {
 
     private String generateClaimNumber() {
         return "CLM-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
+    public List<NotificationAudit> getNotificationAudits(Long claimId) {
+        getById(claimId);
+        return notificationAuditRepository.findByClaimId(claimId);
     }
 }
