@@ -1,0 +1,1471 @@
+{
+    "item": [
+        {
+            "name": "api",
+            "description": "",
+            "item": [
+                {
+                    "name": "templates",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "546b2fcb-49b2-41de-9827-5a13763c55fc",
+                            "name": "all",
+                            "request": {
+                                "name": "all",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "api",
+                                        "templates"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "*/*"
+                                    }
+                                ],
+                                "method": "GET",
+                                "body": {},
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{bearerToken}}"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "id": "4168c93e-9d9e-4597-9063-d269a85561b2",
+                                    "name": "OK",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "templates"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "*/*"
+                                            },
+                                            {
+                                                "description": {
+                                                    "content": "Added as a part of security scheme: bearer",
+                                                    "type": "text/plain"
+                                                },
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {}
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "*/*"
+                                        }
+                                    ],
+                                    "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": [\n    {\n      \"id\": \"<long>\",\n      \"code\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"baseCoverageAmount\": \"<number>\",\n      \"basePremium\": \"<number>\",\n      \"defaultDurationHours\": \"<integer>\",\n      \"riskCategory\": \"<string>\",\n      \"active\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"code\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"baseCoverageAmount\": \"<number>\",\n      \"basePremium\": \"<number>\",\n      \"defaultDurationHours\": \"<integer>\",\n      \"riskCategory\": \"<string>\",\n      \"active\": \"<boolean>\"\n    }\n  ],\n  \"timestamp\": \"<dateTime>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "text"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "id": "280c8636-bd0a-4c57-ad04-f22eeb2061a0",
+                            "name": "create",
+                            "request": {
+                                "name": "create",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "api",
+                                        "templates"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "*/*"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"baseCoverageAmount\": \"<number>\",\n  \"basePremium\": \"<number>\",\n  \"code\": \"<string>\",\n  \"defaultDurationHours\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"riskCategory\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{bearerToken}}"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "id": "3b6c6992-d5f6-452a-97d8-d86cd91f1011",
+                                    "name": "OK",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "templates"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "*/*"
+                                            },
+                                            {
+                                                "description": {
+                                                    "content": "Added as a part of security scheme: bearer",
+                                                    "type": "text/plain"
+                                                },
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"baseCoverageAmount\": \"<number>\",\n  \"basePremium\": \"<number>\",\n  \"code\": \"<string>\",\n  \"defaultDurationHours\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"riskCategory\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "*/*"
+                                        }
+                                    ],
+                                    "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"id\": \"<long>\",\n    \"code\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseCoverageAmount\": \"<number>\",\n    \"basePremium\": \"<number>\",\n    \"defaultDurationHours\": \"<integer>\",\n    \"riskCategory\": \"<string>\",\n    \"active\": \"<boolean>\"\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "text"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "name": "{code}",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "efb5703f-ee3f-459e-9a02-d97c7bdd2f67",
+                                    "name": "by Code",
+                                    "request": {
+                                        "name": "by Code",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "templates",
+                                                ":code"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": [
+                                                {
+                                                    "type": "any",
+                                                    "key": "code"
+                                                }
+                                            ]
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "*/*"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {},
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{bearerToken}}"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "5d5e1edc-2d43-4d1d-8b73-d0950b16f730",
+                                            "name": "OK",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "templates",
+                                                        ":code"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "*/*"
+                                                    },
+                                                    {
+                                                        "description": {
+                                                            "content": "Added as a part of security scheme: bearer",
+                                                            "type": "text/plain"
+                                                        },
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "*/*"
+                                                }
+                                            ],
+                                            "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"id\": \"<long>\",\n    \"code\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseCoverageAmount\": \"<number>\",\n    \"basePremium\": \"<number>\",\n    \"defaultDurationHours\": \"<integer>\",\n    \"riskCategory\": \"<string>\",\n    \"active\": \"<boolean>\"\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "{id}",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "e737e861-18ca-4228-b214-8b0e52dae064",
+                                    "name": "deactivate",
+                                    "request": {
+                                        "name": "deactivate",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "templates",
+                                                ":id"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": [
+                                                {
+                                                    "type": "any",
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "*/*"
+                                            }
+                                        ],
+                                        "method": "DELETE",
+                                        "body": {},
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{bearerToken}}"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "2c2f2a7c-7a5f-4cb2-84b9-fe40eb6e95b5",
+                                            "name": "OK",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "templates",
+                                                        ":id"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "*/*"
+                                                    },
+                                                    {
+                                                        "description": {
+                                                            "content": "Added as a part of security scheme: bearer",
+                                                            "type": "text/plain"
+                                                        },
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    }
+                                                ],
+                                                "method": "DELETE",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "*/*"
+                                                }
+                                            ],
+                                            "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"id\": \"<long>\",\n    \"code\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseCoverageAmount\": \"<number>\",\n    \"basePremium\": \"<number>\",\n    \"defaultDurationHours\": \"<integer>\",\n    \"riskCategory\": \"<string>\",\n    \"active\": \"<boolean>\"\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "policies",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "b6e4ad2d-e477-4ce5-9c2b-ca3313eeb195",
+                            "name": "create 1",
+                            "request": {
+                                "name": "create 1",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "api",
+                                        "policies"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "*/*"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"templateCode\": \"<string>\",\n  \"userId\": \"<long>\",\n  \"durationHoursOverride\": \"<integer>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{bearerToken}}"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "id": "5b659aef-8d75-44a4-9761-e08295a96cdf",
+                                    "name": "OK",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "policies"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "*/*"
+                                            },
+                                            {
+                                                "description": {
+                                                    "content": "Added as a part of security scheme: bearer",
+                                                    "type": "text/plain"
+                                                },
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"templateCode\": \"<string>\",\n  \"userId\": \"<long>\",\n  \"durationHoursOverride\": \"<integer>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "*/*"
+                                        }
+                                    ],
+                                    "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"id\": \"<long>\",\n    \"policyNumber\": \"<string>\",\n    \"userId\": \"<long>\",\n    \"template\": {\n      \"id\": \"<long>\",\n      \"code\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"baseCoverageAmount\": \"<number>\",\n      \"basePremium\": \"<number>\",\n      \"defaultDurationHours\": \"<integer>\",\n      \"riskCategory\": \"<string>\",\n      \"active\": \"<boolean>\"\n    },\n    \"status\": \"ACTIVE\",\n    \"coverageAmount\": \"<number>\",\n    \"premiumAmount\": \"<number>\",\n    \"startDate\": \"<dateTime>\",\n    \"endDate\": \"<dateTime>\",\n    \"createdAt\": \"<dateTime>\"\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "text"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "name": "{id}",
+                            "description": "",
+                            "item": [
+                                {
+                                    "name": "cancel",
+                                    "description": "",
+                                    "item": [
+                                        {
+                                            "id": "d5d84f9a-5700-43f3-85b3-6ca0172a7642",
+                                            "name": "cancel",
+                                            "request": {
+                                                "name": "cancel",
+                                                "description": {},
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "policies",
+                                                        ":id",
+                                                        "cancel"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": [
+                                                        {
+                                                            "type": "any",
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "*/*"
+                                                    }
+                                                ],
+                                                "method": "POST",
+                                                "body": {},
+                                                "auth": {
+                                                    "type": "bearer",
+                                                    "bearer": [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{bearerToken}}"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "response": [
+                                                {
+                                                    "id": "45b3fd89-78b6-4c7f-a52e-46553674a75d",
+                                                    "name": "OK",
+                                                    "originalRequest": {
+                                                        "url": {
+                                                            "path": [
+                                                                "api",
+                                                                "policies",
+                                                                ":id",
+                                                                "cancel"
+                                                            ],
+                                                            "host": [
+                                                                "{{baseUrl}}"
+                                                            ],
+                                                            "query": [],
+                                                            "variable": []
+                                                        },
+                                                        "header": [
+                                                            {
+                                                                "key": "Accept",
+                                                                "value": "*/*"
+                                                            },
+                                                            {
+                                                                "description": {
+                                                                    "content": "Added as a part of security scheme: bearer",
+                                                                    "type": "text/plain"
+                                                                },
+                                                                "key": "Authorization",
+                                                                "value": "Bearer <token>"
+                                                            }
+                                                        ],
+                                                        "method": "POST",
+                                                        "body": {}
+                                                    },
+                                                    "status": "OK",
+                                                    "code": 200,
+                                                    "header": [
+                                                        {
+                                                            "key": "Content-Type",
+                                                            "value": "*/*"
+                                                        }
+                                                    ],
+                                                    "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"id\": \"<long>\",\n    \"policyNumber\": \"<string>\",\n    \"userId\": \"<long>\",\n    \"template\": {\n      \"id\": \"<long>\",\n      \"code\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"baseCoverageAmount\": \"<number>\",\n      \"basePremium\": \"<number>\",\n      \"defaultDurationHours\": \"<integer>\",\n      \"riskCategory\": \"<string>\",\n      \"active\": \"<boolean>\"\n    },\n    \"status\": \"ACTIVE\",\n    \"coverageAmount\": \"<number>\",\n    \"premiumAmount\": \"<number>\",\n    \"startDate\": \"<dateTime>\",\n    \"endDate\": \"<dateTime>\",\n    \"createdAt\": \"<dateTime>\"\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                                                    "cookie": [],
+                                                    "_postman_previewlanguage": "text"
+                                                }
+                                            ],
+                                            "event": [],
+                                            "protocolProfileBehavior": {
+                                                "disableBodyPruning": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "activate",
+                                    "description": "",
+                                    "item": [
+                                        {
+                                            "id": "e5ce3f59-d69f-4f21-b134-6ce001e468d3",
+                                            "name": "activate",
+                                            "request": {
+                                                "name": "activate",
+                                                "description": {},
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "policies",
+                                                        ":id",
+                                                        "activate"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": [
+                                                        {
+                                                            "type": "any",
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "*/*"
+                                                    }
+                                                ],
+                                                "method": "POST",
+                                                "body": {},
+                                                "auth": {
+                                                    "type": "bearer",
+                                                    "bearer": [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{bearerToken}}"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "response": [
+                                                {
+                                                    "id": "76f75591-b3d2-4a23-a0f7-512b6c31ea4c",
+                                                    "name": "OK",
+                                                    "originalRequest": {
+                                                        "url": {
+                                                            "path": [
+                                                                "api",
+                                                                "policies",
+                                                                ":id",
+                                                                "activate"
+                                                            ],
+                                                            "host": [
+                                                                "{{baseUrl}}"
+                                                            ],
+                                                            "query": [],
+                                                            "variable": []
+                                                        },
+                                                        "header": [
+                                                            {
+                                                                "key": "Accept",
+                                                                "value": "*/*"
+                                                            },
+                                                            {
+                                                                "description": {
+                                                                    "content": "Added as a part of security scheme: bearer",
+                                                                    "type": "text/plain"
+                                                                },
+                                                                "key": "Authorization",
+                                                                "value": "Bearer <token>"
+                                                            }
+                                                        ],
+                                                        "method": "POST",
+                                                        "body": {}
+                                                    },
+                                                    "status": "OK",
+                                                    "code": 200,
+                                                    "header": [
+                                                        {
+                                                            "key": "Content-Type",
+                                                            "value": "*/*"
+                                                        }
+                                                    ],
+                                                    "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"id\": \"<long>\",\n    \"policyNumber\": \"<string>\",\n    \"userId\": \"<long>\",\n    \"template\": {\n      \"id\": \"<long>\",\n      \"code\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"baseCoverageAmount\": \"<number>\",\n      \"basePremium\": \"<number>\",\n      \"defaultDurationHours\": \"<integer>\",\n      \"riskCategory\": \"<string>\",\n      \"active\": \"<boolean>\"\n    },\n    \"status\": \"ACTIVE\",\n    \"coverageAmount\": \"<number>\",\n    \"premiumAmount\": \"<number>\",\n    \"startDate\": \"<dateTime>\",\n    \"endDate\": \"<dateTime>\",\n    \"createdAt\": \"<dateTime>\"\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                                                    "cookie": [],
+                                                    "_postman_previewlanguage": "text"
+                                                }
+                                            ],
+                                            "event": [],
+                                            "protocolProfileBehavior": {
+                                                "disableBodyPruning": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "f76012d3-25f6-4967-aa87-3a51e1501497",
+                                    "name": "by Id",
+                                    "request": {
+                                        "name": "by Id",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "policies",
+                                                ":id"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": [
+                                                {
+                                                    "type": "any",
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "*/*"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {},
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{bearerToken}}"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "36c8b4fa-f130-4728-b14a-6ac95cae7824",
+                                            "name": "OK",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "policies",
+                                                        ":id"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "*/*"
+                                                    },
+                                                    {
+                                                        "description": {
+                                                            "content": "Added as a part of security scheme: bearer",
+                                                            "type": "text/plain"
+                                                        },
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "*/*"
+                                                }
+                                            ],
+                                            "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"id\": \"<long>\",\n    \"policyNumber\": \"<string>\",\n    \"userId\": \"<long>\",\n    \"template\": {\n      \"id\": \"<long>\",\n      \"code\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"baseCoverageAmount\": \"<number>\",\n      \"basePremium\": \"<number>\",\n      \"defaultDurationHours\": \"<integer>\",\n      \"riskCategory\": \"<string>\",\n      \"active\": \"<boolean>\"\n    },\n    \"status\": \"ACTIVE\",\n    \"coverageAmount\": \"<number>\",\n    \"premiumAmount\": \"<number>\",\n    \"startDate\": \"<dateTime>\",\n    \"endDate\": \"<dateTime>\",\n    \"createdAt\": \"<dateTime>\"\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "user",
+                            "description": "",
+                            "item": [
+                                {
+                                    "name": "{userId}",
+                                    "description": "",
+                                    "item": [
+                                        {
+                                            "id": "bfb78943-45b0-4738-86f3-0eb392619c21",
+                                            "name": "by User",
+                                            "request": {
+                                                "name": "by User",
+                                                "description": {},
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "policies",
+                                                        "user",
+                                                        ":userId"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": [
+                                                        {
+                                                            "type": "any",
+                                                            "key": "userId"
+                                                        }
+                                                    ]
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "*/*"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {},
+                                                "auth": {
+                                                    "type": "bearer",
+                                                    "bearer": [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{bearerToken}}"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "response": [
+                                                {
+                                                    "id": "f784da71-281a-4d18-aaea-aa657b50fc8a",
+                                                    "name": "OK",
+                                                    "originalRequest": {
+                                                        "url": {
+                                                            "path": [
+                                                                "api",
+                                                                "policies",
+                                                                "user",
+                                                                ":userId"
+                                                            ],
+                                                            "host": [
+                                                                "{{baseUrl}}"
+                                                            ],
+                                                            "query": [],
+                                                            "variable": []
+                                                        },
+                                                        "header": [
+                                                            {
+                                                                "key": "Accept",
+                                                                "value": "*/*"
+                                                            },
+                                                            {
+                                                                "description": {
+                                                                    "content": "Added as a part of security scheme: bearer",
+                                                                    "type": "text/plain"
+                                                                },
+                                                                "key": "Authorization",
+                                                                "value": "Bearer <token>"
+                                                            }
+                                                        ],
+                                                        "method": "GET",
+                                                        "body": {}
+                                                    },
+                                                    "status": "OK",
+                                                    "code": 200,
+                                                    "header": [
+                                                        {
+                                                            "key": "Content-Type",
+                                                            "value": "*/*"
+                                                        }
+                                                    ],
+                                                    "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": [\n    {\n      \"id\": \"<long>\",\n      \"policyNumber\": \"<string>\",\n      \"userId\": \"<long>\",\n      \"template\": {\n        \"id\": \"<long>\",\n        \"code\": \"<string>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"baseCoverageAmount\": \"<number>\",\n        \"basePremium\": \"<number>\",\n        \"defaultDurationHours\": \"<integer>\",\n        \"riskCategory\": \"<string>\",\n        \"active\": \"<boolean>\"\n      },\n      \"status\": \"ACTIVE\",\n      \"coverageAmount\": \"<number>\",\n      \"premiumAmount\": \"<number>\",\n      \"startDate\": \"<dateTime>\",\n      \"endDate\": \"<dateTime>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"policyNumber\": \"<string>\",\n      \"userId\": \"<long>\",\n      \"template\": {\n        \"id\": \"<long>\",\n        \"code\": \"<string>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"baseCoverageAmount\": \"<number>\",\n        \"basePremium\": \"<number>\",\n        \"defaultDurationHours\": \"<integer>\",\n        \"riskCategory\": \"<string>\",\n        \"active\": \"<boolean>\"\n      },\n      \"status\": \"DRAFT\",\n      \"coverageAmount\": \"<number>\",\n      \"premiumAmount\": \"<number>\",\n      \"startDate\": \"<dateTime>\",\n      \"endDate\": \"<dateTime>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"timestamp\": \"<dateTime>\"\n}",
+                                                    "cookie": [],
+                                                    "_postman_previewlanguage": "text"
+                                                }
+                                            ],
+                                            "event": [],
+                                            "protocolProfileBehavior": {
+                                                "disableBodyPruning": true
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "auth",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "register",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "482aa62a-e3a2-4075-89cb-c69b8dedae2e",
+                                    "name": "register",
+                                    "request": {
+                                        "name": "register",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "auth",
+                                                "register"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "*/*"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "auth": null
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "265e183f-ea9f-4614-ba77-22f71a51765d",
+                                            "name": "OK",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "auth",
+                                                        "register"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Content-Type",
+                                                        "value": "application/json"
+                                                    },
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "*/*"
+                                                    }
+                                                ],
+                                                "method": "POST",
+                                                "body": {
+                                                    "mode": "raw",
+                                                    "raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+                                                    "options": {
+                                                        "raw": {
+                                                            "headerFamily": "json",
+                                                            "language": "json"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "*/*"
+                                                }
+                                            ],
+                                            "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"token\": \"<string>\",\n    \"tokenType\": \"<string>\",\n    \"username\": \"<string>\",\n    \"roles\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "login",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "00ab886a-a6ba-4aad-9e3a-ad83108c8ee3",
+                                    "name": "login",
+                                    "request": {
+                                        "name": "login",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "auth",
+                                                "login"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "*/*"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "auth": null
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "dcbfb5f0-2103-4972-87eb-a4b44760af48",
+                                            "name": "OK",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "auth",
+                                                        "login"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Content-Type",
+                                                        "value": "application/json"
+                                                    },
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "*/*"
+                                                    }
+                                                ],
+                                                "method": "POST",
+                                                "body": {
+                                                    "mode": "raw",
+                                                    "raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+                                                    "options": {
+                                                        "raw": {
+                                                            "headerFamily": "json",
+                                                            "language": "json"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "*/*"
+                                                }
+                                            ],
+                                            "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"token\": \"<string>\",\n    \"tokenType\": \"<string>\",\n    \"username\": \"<string>\",\n    \"roles\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "admin",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "users",
+                            "description": "",
+                            "item": [
+                                {
+                                    "name": "{id}",
+                                    "description": "",
+                                    "item": [
+                                        {
+                                            "name": "disable",
+                                            "description": "",
+                                            "item": [
+                                                {
+                                                    "id": "4928c6a2-f2f7-4b6b-8b19-ba7c7e722e71",
+                                                    "name": "disable User",
+                                                    "request": {
+                                                        "name": "disable User",
+                                                        "description": {},
+                                                        "url": {
+                                                            "path": [
+                                                                "api",
+                                                                "admin",
+                                                                "users",
+                                                                ":id",
+                                                                "disable"
+                                                            ],
+                                                            "host": [
+                                                                "{{baseUrl}}"
+                                                            ],
+                                                            "query": [],
+                                                            "variable": [
+                                                                {
+                                                                    "type": "any",
+                                                                    "key": "id"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "header": [
+                                                            {
+                                                                "key": "Accept",
+                                                                "value": "*/*"
+                                                            }
+                                                        ],
+                                                        "method": "POST",
+                                                        "body": {},
+                                                        "auth": {
+                                                            "type": "bearer",
+                                                            "bearer": [
+                                                                {
+                                                                    "key": "token",
+                                                                    "value": "{{bearerToken}}"
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    "response": [
+                                                        {
+                                                            "id": "e4ed6334-6ab6-4be2-9630-765f6d0de003",
+                                                            "name": "OK",
+                                                            "originalRequest": {
+                                                                "url": {
+                                                                    "path": [
+                                                                        "api",
+                                                                        "admin",
+                                                                        "users",
+                                                                        ":id",
+                                                                        "disable"
+                                                                    ],
+                                                                    "host": [
+                                                                        "{{baseUrl}}"
+                                                                    ],
+                                                                    "query": [],
+                                                                    "variable": []
+                                                                },
+                                                                "header": [
+                                                                    {
+                                                                        "key": "Accept",
+                                                                        "value": "*/*"
+                                                                    },
+                                                                    {
+                                                                        "description": {
+                                                                            "content": "Added as a part of security scheme: bearer",
+                                                                            "type": "text/plain"
+                                                                        },
+                                                                        "key": "Authorization",
+                                                                        "value": "Bearer <token>"
+                                                                    }
+                                                                ],
+                                                                "method": "POST",
+                                                                "body": {}
+                                                            },
+                                                            "status": "OK",
+                                                            "code": 200,
+                                                            "header": [
+                                                                {
+                                                                    "key": "Content-Type",
+                                                                    "value": "*/*"
+                                                                }
+                                                            ],
+                                                            "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"id\": \"<long>\",\n    \"username\": \"<string>\",\n    \"email\": \"<string>\",\n    \"password\": \"<string>\",\n    \"enabled\": \"<boolean>\",\n    \"roles\": [\n      \"ROLE_ADMIN\",\n      \"ROLE_USER\"\n    ],\n    \"createdAt\": \"<dateTime>\"\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                                                            "cookie": [],
+                                                            "_postman_previewlanguage": "text"
+                                                        }
+                                                    ],
+                                                    "event": [],
+                                                    "protocolProfileBehavior": {
+                                                        "disableBodyPruning": true
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "d3fbd4ee-9112-40ca-86f1-862e8cfe3a73",
+                                    "name": "all Users",
+                                    "request": {
+                                        "name": "all Users",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "admin",
+                                                "users"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "*/*"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {},
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{bearerToken}}"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "f576b5d3-8051-48ca-95a1-5b4f14486188",
+                                            "name": "OK",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "admin",
+                                                        "users"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "*/*"
+                                                    },
+                                                    {
+                                                        "description": {
+                                                            "content": "Added as a part of security scheme: bearer",
+                                                            "type": "text/plain"
+                                                        },
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "*/*"
+                                                }
+                                            ],
+                                            "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": [\n    {\n      \"id\": \"<long>\",\n      \"username\": \"<string>\",\n      \"email\": \"<string>\",\n      \"password\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"roles\": [\n        \"ROLE_USER\",\n        \"ROLE_ADMIN\"\n      ],\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"username\": \"<string>\",\n      \"email\": \"<string>\",\n      \"password\": \"<string>\",\n      \"enabled\": \"<boolean>\",\n      \"roles\": [\n        \"ROLE_UNDERWRITER\",\n        \"ROLE_UNDERWRITER\"\n      ],\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"timestamp\": \"<dateTime>\"\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "policies",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "64a28856-62f2-45d5-b34f-e5937567e8aa",
+                                    "name": "all Policies",
+                                    "request": {
+                                        "name": "all Policies",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "admin",
+                                                "policies"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "*/*"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {},
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{bearerToken}}"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "aca76d3b-d3e1-4877-9cbd-39e1ced18bd5",
+                                            "name": "OK",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "admin",
+                                                        "policies"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "*/*"
+                                                    },
+                                                    {
+                                                        "description": {
+                                                            "content": "Added as a part of security scheme: bearer",
+                                                            "type": "text/plain"
+                                                        },
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "*/*"
+                                                }
+                                            ],
+                                            "body": "{\n  \"success\": \"<boolean>\",\n  \"message\": \"<string>\",\n  \"data\": [\n    {\n      \"id\": \"<long>\",\n      \"policyNumber\": \"<string>\",\n      \"userId\": \"<long>\",\n      \"template\": {\n        \"id\": \"<long>\",\n        \"code\": \"<string>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"baseCoverageAmount\": \"<number>\",\n        \"basePremium\": \"<number>\",\n        \"defaultDurationHours\": \"<integer>\",\n        \"riskCategory\": \"<string>\",\n        \"active\": \"<boolean>\"\n      },\n      \"status\": \"ACTIVE\",\n      \"coverageAmount\": \"<number>\",\n      \"premiumAmount\": \"<number>\",\n      \"startDate\": \"<dateTime>\",\n      \"endDate\": \"<dateTime>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"policyNumber\": \"<string>\",\n      \"userId\": \"<long>\",\n      \"template\": {\n        \"id\": \"<long>\",\n        \"code\": \"<string>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"baseCoverageAmount\": \"<number>\",\n        \"basePremium\": \"<number>\",\n        \"defaultDurationHours\": \"<integer>\",\n        \"riskCategory\": \"<string>\",\n        \"active\": \"<boolean>\"\n      },\n      \"status\": \"DRAFT\",\n      \"coverageAmount\": \"<number>\",\n      \"premiumAmount\": \"<number>\",\n      \"startDate\": \"<dateTime>\",\n      \"endDate\": \"<dateTime>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"timestamp\": \"<dateTime>\"\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "event": [],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8081"
+        }
+    ],
+    "info": {
+        "_postman_id": "59694d56-721f-4a62-ba16-c9de475e30af",
+        "name": "User & Policy Service API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": {
+            "content": "Person A: Auth, RBAC, Policy CRUD/Templates, Expiry Engine, Admin Panel",
+            "type": "text/plain"
+        }
+    }
+}
