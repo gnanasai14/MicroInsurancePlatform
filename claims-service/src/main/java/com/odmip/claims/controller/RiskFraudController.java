@@ -61,4 +61,12 @@ public class RiskFraudController {
     public ApiResponse<List<FraudRule>> getRules() {
         return ApiResponse.ok(fraudRuleRepository.findByActiveTrue());
     }
+
+    @GetMapping("/rules/{id}")
+    @Operation(summary = "Get a dynamic fraud rule by ID")
+    public ApiResponse<FraudRule> getRuleById(@PathVariable Long id) {
+        return ApiResponse.ok(fraudRuleRepository.findById(id)
+                .orElseThrow(() -> new com.odmip.common.exception.ResourceNotFoundException(
+                        "No fraud rule with id " + id)));
+    }
 }

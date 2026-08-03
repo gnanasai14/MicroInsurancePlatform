@@ -8,6 +8,7 @@ import com.odmip.pricing.entity.CouponRedemption;
 import com.odmip.pricing.repository.CouponRepository;
 import com.odmip.pricing.repository.CouponRedemptionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -42,6 +43,7 @@ public class CouponService {
     }
 
     /** Validates + "redeems" multiple comma-separated coupons and returns the cumulative discount amount. */
+    @Transactional
     public BigDecimal calculateDiscount(String codesStr, BigDecimal initialPremium, Long userId) {
         String[] codes = codesStr.split(",");
         BigDecimal currentPremium = initialPremium;
@@ -99,5 +101,36 @@ public class CouponService {
 
     public java.util.List<Coupon> getAllCoupons() {
         return couponRepository.findAll();
+    }
+
+    public java.util.List<Coupon> getActiveCoupons() {
+        return couponRepository.findByActiveTrue();
+    }
+
+    public com.odmip.pricing.dto.CouponValidationResponse validateCoupon(String code, Long userId) {
+        java.util.Optional<Coupon> couponOpt = couponRepository.findByCodeAndActiveTrue(code.toUpperCase());
+        if (couponOpt.isEmpty()) {
+            return new com.odmip.pricing.dto.CouponValidationResponse(false, "Coupon not found or is inactive");
+        }
+        Coupon coupon = couponOpt.get();
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isBefore(coupon.getValidFrom())) {
+            return new com.odmip.pricing.dto.CouponValidationResponse(false, "Coupon is not active yet");
+        }
+        if (now.isAfter(coupon.getValidUntil())) {
+            return new com.odmip.pricing.dto.CouponValidationResponse(false, "Coupon has expired");
+        }
+        if (coupon.getTimesRedeemed() >= coupon.getMaxRedemptions()) {
+            return new com.odmip.pricing.dto.CouponValidationResponse(false, "Coupon has reached its maximum redemption limit");
+        }
+        if (userId != null && coupon.getMaxRedemptionsPerUser() != null) {
+            int userRedemptions = redemptionRepository.findByCouponIdAndUserId(coupon.getId(), userId)
+                    .map(CouponRedemption::getRedemptionCount)
+                    .orElse(0);
+            if (userRedemptions >= coupon.getMaxRedemptionsPerUser()) {
+                return new com.odmip.pricing.dto.CouponValidationResponse(false, "Coupon has reached its redemption limit for this user");
+            }
+        }
+        return new com.odmip.pricing.dto.CouponValidationResponse(true, "Coupon is valid");
     }
 }

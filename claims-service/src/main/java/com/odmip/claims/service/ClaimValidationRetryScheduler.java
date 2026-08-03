@@ -33,6 +33,9 @@ public class ClaimValidationRetryScheduler {
     private final ClaimService claimService;
     private final NotificationPublisher notificationPublisher;
 
+    @org.springframework.beans.factory.annotation.Value("${odmip.claims.retry.max-attempts:5}")
+    private int maxAttempts;
+
     @Scheduled(fixedDelay = 10000) // retry every 10 seconds
     @Transactional
     public void processPendingRetries() {
@@ -99,13 +102,13 @@ public class ClaimValidationRetryScheduler {
                 int count = retry.getRetryCount() + 1;
                 retry.setRetryCount(count);
                 retry.setLastError(ex.getMessage());
-                if (count >= 5) {
+                if (count >= maxAttempts) {
                     log.error("Max retries exceeded for claim {}. Rejecting.", claim.getId());
                     claim.setPolicyValidated(false);
                     claimRepository.save(claim);
                     claimService.updateStatus(claim.getId(), ClaimStatus.REJECTED, 
                             "Policy validation failed: User service unavailable after max retries.");
-                    retry.setStatus("FAILED");
+                    retry.setStatus("DEAD_LETTER");
                 } else {
                     retry.setNextRetryAt(LocalDateTime.now().plusSeconds(15L * count));
                 }

@@ -23,4 +23,17 @@ public class CouponController {
     public ApiResponse<Coupon> create(@Valid @RequestBody CouponRequest request) {
         return ApiResponse.ok("Coupon created", couponService.create(request));
     }
+
+    @GetMapping
+    public ApiResponse<java.util.List<Coupon>> listActive() {
+        return ApiResponse.ok(couponService.getActiveCoupons());
+    }
+
+    @GetMapping("/{code}/validate")
+    public ApiResponse<com.odmip.pricing.dto.CouponValidationResponse> validate(
+            @PathVariable String code,
+            @RequestParam(required = false) Long userId
+    ) {
+        return ApiResponse.ok(couponService.validateCoupon(code, userId));
+    }
 }
