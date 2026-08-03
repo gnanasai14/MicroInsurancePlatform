@@ -43,6 +43,14 @@ public class DashboardService {
                 Double totalUsage = usageLogRepository.totalUsageForPolicy(p.id());
                 entries.add(new DashboardSummary.PolicyUsageEntry(
                         p.id(), p.policyNumber(), p.status(), totalUsage != null ? totalUsage : 0.0));
+
+                List<com.odmip.pricing.dto.PremiumHistoryDTO> history = policyServiceClient.getPremiumHistory(p.id()).block();
+                if (history != null && !history.isEmpty()) {
+                    BigDecimal policyPremium = history.get(history.size() - 1).premiumAmount();
+                    if (policyPremium != null) {
+                        totalPremium = totalPremium.add(policyPremium);
+                    }
+                }
             }
         }
 

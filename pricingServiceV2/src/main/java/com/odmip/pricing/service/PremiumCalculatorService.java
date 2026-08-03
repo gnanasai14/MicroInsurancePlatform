@@ -36,15 +36,18 @@ public class PremiumCalculatorService {
     private final CouponService couponService;
     private final QuoteRepository quoteRepository;
     private final PolicyServiceClient policyServiceClient;
+    private final EmailNotificationService emailNotificationService;
 
     public PremiumCalculatorService(PricingRuleRepository ruleRepository,
                                     CouponService couponService,
                                     QuoteRepository quoteRepository,
-                                    PolicyServiceClient policyServiceClient) {
+                                    PolicyServiceClient policyServiceClient,
+                                    EmailNotificationService emailNotificationService) {
         this.ruleRepository = ruleRepository;
         this.couponService = couponService;
         this.quoteRepository = quoteRepository;
         this.policyServiceClient = policyServiceClient;
+        this.emailNotificationService = emailNotificationService;
     }
 
     public PremiumQuoteResponse quote(PremiumQuoteRequest req) {
@@ -122,6 +125,17 @@ public class PremiumCalculatorService {
         // Step 6: Propagate calculated premium to Vinay's endpoint if policyId exists
         if (req.policyId() != null) {
             policyServiceClient.updatePolicyPremium(req.policyId(), finalPremium).block();
+        }
+
+        // Send email confirmation
+        try {
+            com.odmip.common.dto.UserDTO userDto = policyServiceClient.getUser(req.userId()).block();
+            if (userDto != null && userDto.email() != null) {
+                String policyIdOrNum = req.policyId() != null ? String.valueOf(req.policyId()) : "NEW_QUOTE";
+                emailNotificationService.sendQuoteConfirmation(userDto.email(), policyIdOrNum, finalPremium);
+            }
+        } catch (Exception ex) {
+            appliedRules.add("Notification Error: " + ex.getMessage());
         }
 
         return new PremiumQuoteResponse(

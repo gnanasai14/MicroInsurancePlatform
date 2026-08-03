@@ -18,10 +18,13 @@ public class UsageTrackingService {
 
     private final UsageLogRepository usageLogRepository;
     private final PolicyServiceClient policyServiceClient;
+    private final EmailNotificationService emailNotificationService;
 
-    public UsageTrackingService(UsageLogRepository usageLogRepository, PolicyServiceClient policyServiceClient) {
+    public UsageTrackingService(UsageLogRepository usageLogRepository, PolicyServiceClient policyServiceClient,
+                                EmailNotificationService emailNotificationService) {
         this.usageLogRepository = usageLogRepository;
         this.policyServiceClient = policyServiceClient;
+        this.emailNotificationService = emailNotificationService;
     }
 
     public UsageLog record(UsageRequest req) {
@@ -40,12 +43,28 @@ public class UsageTrackingService {
             double cap = (policy != null && policy.usageCap() != null) ? policy.usageCap() : 100.0; // default cap is 100.0
 
             double percentage = (total / cap) * 100.0;
+            String userEmail = null;
+            try {
+                com.odmip.common.dto.UserDTO userDto = policyServiceClient.getUser(req.userId()).block();
+                if (userDto != null) {
+                    userEmail = userDto.email();
+                }
+            } catch (Exception e) {
+                log.warn("Could not retrieve user email for usage alert: {}", e.getMessage());
+            }
+
             if (percentage >= 100.0) {
                 log.warn("ALERT: Policy {} has reached 100% of its usage cap! (Current total: {}, Cap: {})", req.policyId(), total, cap);
                 policyServiceClient.sendUsageAlert(req.policyId(), "CAP_REACHED", percentage).subscribe();
+                if (userEmail != null) {
+                    emailNotificationService.sendCapWarning(userEmail, policy != null ? policy.policyNumber() : String.valueOf(req.policyId()), 100.0);
+                }
             } else if (percentage >= 80.0) {
                 log.warn("ALERT: Policy {} has reached 80% of its usage cap! (Current total: {}, Cap: {})", req.policyId(), total, cap);
                 policyServiceClient.sendUsageAlert(req.policyId(), "WARNING_80_PERCENT", percentage).subscribe();
+                if (userEmail != null) {
+                    emailNotificationService.sendCapWarning(userEmail, policy != null ? policy.policyNumber() : String.valueOf(req.policyId()), 80.0);
+                }
             }
         } catch (Exception ex) {
             log.warn("Failed to check usage threshold alert for policy {}: {}", req.policyId(), ex.getMessage());
