@@ -33,6 +33,7 @@ public class DataSeeder implements CommandLineRunner {
             userRepository.save(User.builder()
                     .username("admin")
                     .email("admin@odmip.local")
+                    .sms("+15555551234")
                     .password(passwordEncoder.encode("Admin@123"))
                     .enabled(true)
                     .roles(Set.of(Role.ROLE_ADMIN, Role.ROLE_USER))

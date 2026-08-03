@@ -1,7 +1,6 @@
 package com.odmip.user.security;
 
 import com.odmip.user.entity.User;
-import com.odmip.user.entity.UserStatus;
 import com.odmip.user.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +28,7 @@ public class AppUserDetailsService implements UserDetailsService {
                 .authorities(user.getRoles().stream()
                         .map(r -> new SimpleGrantedAuthority(r.name()))
                         .toList())
-                .disabled(!user.isEnabled() || user.getStatus() == UserStatus.SUSPENDED)
+                .disabled(!user.isEnabled())
                 .build();
     }
 }

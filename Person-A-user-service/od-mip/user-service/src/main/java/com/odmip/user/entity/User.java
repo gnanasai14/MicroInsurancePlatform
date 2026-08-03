@@ -32,6 +32,9 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    private String sms;
+
+    @Column(nullable = false)
     private String password; // BCrypt hash - never store plaintext
 
     @Column(nullable = false)

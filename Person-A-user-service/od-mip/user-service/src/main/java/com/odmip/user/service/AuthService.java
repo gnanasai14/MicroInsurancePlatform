@@ -43,6 +43,7 @@ public class AuthService {
         User user = User.builder()
                 .username(req.username())
                 .email(req.email())
+                .sms(req.sms())
                 .password(passwordEncoder.encode(req.password()))
                 .enabled(true)
                 .roles(Set.of(Role.ROLE_USER))

@@ -1,8 +1,10 @@
 package com.odmip.user.dto;
 
+import com.odmip.user.entity.PolicyStatus;
+
 import java.math.BigDecimal;
 
 public record PolicyPatchRequest(
-        String status,
-        BigDecimal premiumAmount
+        BigDecimal premium,
+        PolicyStatus status
 ) {}

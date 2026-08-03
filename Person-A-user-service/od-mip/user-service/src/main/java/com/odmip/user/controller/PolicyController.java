@@ -1,10 +1,10 @@
 package com.odmip.user.controller;
 
 import com.odmip.common.dto.ApiResponse;
-import com.odmip.common.dto.PolicyDTO;
 import com.odmip.user.dto.PolicyCreateRequest;
 import com.odmip.user.dto.PolicyPatchRequest;
 import com.odmip.user.entity.Policy;
+import com.odmip.user.entity.PolicyPremiumHistory;
 import com.odmip.user.service.PolicyService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,23 +41,22 @@ public class PolicyController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<PolicyDTO> byId(@PathVariable Long id) {
-        Policy policy = policyService.getById(id);
-        return ApiResponse.ok(policyService.mapToDTO(policy));
+    public ApiResponse<Policy> byId(@PathVariable Long id) {
+        return ApiResponse.ok(policyService.getById(id));
     }
 
     @GetMapping("/user/{userId}")
-    public ApiResponse<List<PolicyDTO>> byUser(@PathVariable Long userId) {
-        List<Policy> policies = policyService.findByUser(userId);
-        List<PolicyDTO> dtos = policies.stream()
-                .map(policyService::mapToDTO)
-                .toList();
-        return ApiResponse.ok(dtos);
+    public ApiResponse<List<Policy>> byUser(@PathVariable Long userId) {
+        return ApiResponse.ok(policyService.findByUser(userId));
     }
 
     @PatchMapping("/{id}")
-    public ApiResponse<PolicyDTO> patch(@PathVariable Long id, @RequestBody PolicyPatchRequest request) {
-        Policy updatedPolicy = policyService.patch(id, request);
-        return ApiResponse.ok("Policy updated successfully", policyService.mapToDTO(updatedPolicy));
+    public ApiResponse<Policy> patch(@PathVariable Long id, @Valid @RequestBody PolicyPatchRequest request) {
+        return ApiResponse.ok("Policy updated", policyService.patchPolicy(id, request));
+    }
+
+    @GetMapping("/{id}/premium-history")
+    public ApiResponse<List<PolicyPremiumHistory>> premiumHistory(@PathVariable Long id) {
+        return ApiResponse.ok(policyService.getPremiumHistory(id));
     }
 }
