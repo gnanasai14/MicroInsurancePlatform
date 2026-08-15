@@ -6,15 +6,9 @@ import com.odmip.user.entity.PolicyStatus;
 import com.odmip.user.entity.Role;
 import com.odmip.user.entity.User;
 import com.odmip.user.repository.UserRepository;
-import com.odmip.user.repository.UserSpecification;
-import com.odmip.user.repository.PolicySpecification;
 import com.odmip.user.service.PolicyService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,37 +34,13 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public ApiResponse<Page<User>> allUsers(
-            @RequestParam(required = false) String username,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) Role role,
-            @RequestParam(required = false) Boolean enabled,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        Pageable pageable = PageRequest.of(page, size);
-        Specification<User> spec = Specification.where(UserSpecification.hasUsername(username))
-                .and(UserSpecification.hasEmail(email))
-                .and(UserSpecification.hasRole(role))
-                .and(UserSpecification.hasEnabled(enabled));
-        return ApiResponse.ok(userRepository.findAll(spec, pageable));
+    public ApiResponse<List<User>> allUsers() {
+        return ApiResponse.ok(userRepository.findAll());
     }
 
     @GetMapping("/policies")
-    public ApiResponse<Page<Policy>> allPolicies(
-            @RequestParam(required = false) Long userId,
-            @RequestParam(required = false) PolicyStatus status,
-            @RequestParam(required = false) String policyNumber,
-            @RequestParam(required = false) String templateCode,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        Pageable pageable = PageRequest.of(page, size);
-        Specification<Policy> spec = Specification.where(PolicySpecification.hasUserId(userId))
-                .and(PolicySpecification.hasStatus(status))
-                .and(PolicySpecification.hasPolicyNumber(policyNumber))
-                .and(PolicySpecification.hasTemplateCode(templateCode));
-        return ApiResponse.ok(policyService.findAll(spec, pageable));
+    public ApiResponse<List<Policy>> allPolicies() {
+        return ApiResponse.ok(policyService.findAll());
     }
 
     @PostMapping("/users/{id}/disable")

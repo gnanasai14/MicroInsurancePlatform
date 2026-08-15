@@ -29,4 +29,9 @@ public class AuthController {
     public ApiResponse<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ApiResponse.ok("Login successful", authService.login(request));
     }
+
+    @GetMapping("/users/{id}")
+    public ApiResponse<com.odmip.common.dto.UserDTO> getUser(@PathVariable Long id) {
+        return ApiResponse.ok(authService.getUserById(id));
+    }
 }

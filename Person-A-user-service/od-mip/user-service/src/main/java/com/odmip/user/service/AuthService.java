@@ -66,6 +66,17 @@ public class AuthService {
         return new AuthResponse(token, user.getUsername(), toStringSet(user.getRoles()));
     }
 
+    public com.odmip.common.dto.UserDTO getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new com.odmip.common.exception.ResourceNotFoundException("No user with id " + id));
+        return new com.odmip.common.dto.UserDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRoles().stream().map(Enum::name).collect(Collectors.toSet())
+        );
+    }
+
     private java.util.List<String> roleNames(User user) {
         return user.getRoles().stream().map(Enum::name).toList();
     }

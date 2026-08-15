@@ -4,7 +4,6 @@ import com.odmip.common.exception.BusinessRuleException;
 import com.odmip.user.dto.PolicyPatchRequest;
 import com.odmip.user.entity.Policy;
 import com.odmip.user.entity.PolicyStatus;
-import com.odmip.user.repository.PolicyPremiumHistoryRepository;
 import com.odmip.user.repository.PolicyRepository;
 import com.odmip.user.repository.PolicyTemplateRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,9 +29,6 @@ public class PolicyServiceTest {
 
     @Mock
     private PolicyTemplateRepository templateRepository;
-
-    @Mock
-    private PolicyPremiumHistoryRepository premiumHistoryRepository;
 
     @InjectMocks
     private PolicyService policyService;
@@ -151,7 +147,7 @@ public class PolicyServiceTest {
     }
 
     @Test
-    void testPremiumUpdate_RecordsHistory() {
+    void testPremiumUpdate_Success() {
         when(policyRepository.findById(2L)).thenReturn(Optional.of(activePolicy));
         when(policyRepository.save(any(Policy.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -160,7 +156,6 @@ public class PolicyServiceTest {
         Policy updated = policyService.patchPolicy(2L, patchRequest);
 
         assertEquals(newPremium, updated.getPremiumAmount());
-        verify(premiumHistoryRepository, times(1)).save(any(com.odmip.user.entity.PolicyPremiumHistory.class));
         verify(policyRepository, times(1)).save(activePolicy);
     }
 }

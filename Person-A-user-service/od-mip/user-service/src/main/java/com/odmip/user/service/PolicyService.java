@@ -5,10 +5,8 @@ import com.odmip.common.exception.ResourceNotFoundException;
 import com.odmip.user.dto.PolicyCreateRequest;
 import com.odmip.user.dto.PolicyPatchRequest;
 import com.odmip.user.entity.Policy;
-import com.odmip.user.entity.PolicyPremiumHistory;
 import com.odmip.user.entity.PolicyStatus;
 import com.odmip.user.entity.PolicyTemplate;
-import com.odmip.user.repository.PolicyPremiumHistoryRepository;
 import com.odmip.user.repository.PolicyRepository;
 import com.odmip.user.repository.PolicyTemplateRepository;
 import org.springframework.stereotype.Service;
@@ -23,13 +21,10 @@ public class PolicyService {
 
     private final PolicyRepository policyRepository;
     private final PolicyTemplateRepository templateRepository;
-    private final PolicyPremiumHistoryRepository premiumHistoryRepository;
 
-    public PolicyService(PolicyRepository policyRepository, PolicyTemplateRepository templateRepository,
-                         PolicyPremiumHistoryRepository premiumHistoryRepository) {
+    public PolicyService(PolicyRepository policyRepository, PolicyTemplateRepository templateRepository) {
         this.policyRepository = policyRepository;
         this.templateRepository = templateRepository;
-        this.premiumHistoryRepository = premiumHistoryRepository;
     }
 
     /** Creates an on-demand policy from a template. Starts life as DRAFT; activated separately. */
@@ -55,17 +50,7 @@ public class PolicyService {
                 .endDate(start.plusHours(hours))
                 .build();
 
-        Policy savedPolicy = policyRepository.save(policy);
-
-        // Record initial premium in history
-        PolicyPremiumHistory history = PolicyPremiumHistory.builder()
-                .policyId(savedPolicy.getId())
-                .premiumAmount(savedPolicy.getPremiumAmount())
-                .changedAt(LocalDateTime.now())
-                .build();
-        premiumHistoryRepository.save(history);
-
-        return savedPolicy;
+        return policyRepository.save(policy);
     }
 
     public Policy activate(Long policyId) {
@@ -115,13 +100,6 @@ public class PolicyService {
 
         if (req.premium() != null) {
             policy.setPremiumAmount(req.premium());
-            // Record premium update in history
-            PolicyPremiumHistory history = PolicyPremiumHistory.builder()
-                    .policyId(policy.getId())
-                    .premiumAmount(req.premium())
-                    .changedAt(LocalDateTime.now())
-                    .build();
-            premiumHistoryRepository.save(history);
         }
 
         if (req.status() != null) {
@@ -130,11 +108,6 @@ public class PolicyService {
         }
 
         return policyRepository.save(policy);
-    }
-
-    public List<PolicyPremiumHistory> getPremiumHistory(Long policyId) {
-        getById(policyId);
-        return premiumHistoryRepository.findByPolicyIdOrderByChangedAtAsc(policyId);
     }
 
     public Policy getById(Long id) {
@@ -148,10 +121,6 @@ public class PolicyService {
 
     public List<Policy> findAll() {
         return policyRepository.findAll();
-    }
-
-    public org.springframework.data.domain.Page<Policy> findAll(org.springframework.data.jpa.domain.Specification<Policy> spec, org.springframework.data.domain.Pageable pageable) {
-        return policyRepository.findAll(spec, pageable);
     }
 
     private String generatePolicyNumber() {
