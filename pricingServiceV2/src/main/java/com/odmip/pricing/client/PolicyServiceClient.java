@@ -78,28 +78,4 @@ public class PolicyServiceClient {
                     return Mono.empty();
                 });
     }
-
-    public Mono<java.util.List<com.odmip.pricing.dto.PremiumHistoryDTO>> getPremiumHistory(Long policyId) {
-        return webClient.get()
-                .uri("/api/policies/{id}/premium-history", policyId)
-                .retrieve()
-                .bodyToMono(new org.springframework.core.ParameterizedTypeReference<com.odmip.common.dto.ApiResponse<java.util.List<com.odmip.pricing.dto.PremiumHistoryDTO>>>() {})
-                .map(com.odmip.common.dto.ApiResponse::data)
-                .onErrorResume(ex -> {
-                    log.warn("Could not fetch premium history for policy {}: {}", policyId, ex.getMessage());
-                    return Mono.just(java.util.Collections.emptyList());
-                });
-    }
-
-    public Mono<com.odmip.common.dto.UserDTO> getUser(Long userId) {
-        return webClient.get()
-                .uri("/api/auth/users/{id}", userId)
-                .retrieve()
-                .bodyToMono(new org.springframework.core.ParameterizedTypeReference<com.odmip.common.dto.ApiResponse<com.odmip.common.dto.UserDTO>>() {})
-                .map(com.odmip.common.dto.ApiResponse::data)
-                .onErrorResume(ex -> {
-                    log.warn("Could not fetch user info for userId {}: {}", userId, ex.getMessage());
-                    return Mono.empty();
-                });
-    }
 }
