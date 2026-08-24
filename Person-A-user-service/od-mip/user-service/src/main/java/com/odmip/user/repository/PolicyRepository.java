@@ -11,3 +11,4 @@ public interface PolicyRepository extends JpaRepository<Policy, Long> {
     List<Policy> findByUserId(Long userId);
     List<Policy> findByStatusAndEndDateBefore(PolicyStatus status, LocalDateTime cutoff);
 }
+

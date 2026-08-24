@@ -35,3 +35,11 @@ springdoc:
 logging:
   level:
     com.odmip: DEBUG
+
+odmip:
+  services:
+    pricing-service-url: http://localhost:8082
+  sns:
+    enabled: true
+    region: us-east-1
+    policy-events-topic-arn: "arn:aws:sns:us-east-1:000000000000:odmip-policy-events"
