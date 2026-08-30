@@ -2,3 +2,8 @@ target/
 *.class
 .idea/
 *.iml
+
+# Frontend
+odmip-frontend/node_modules/
+odmip-frontend/dist/
+odmip-frontend/.env.local

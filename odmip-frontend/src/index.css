@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Cool paper background instead of the default warm-cream AI look;
+     ultramarine as the structural color, a coral-flare accent for
+     "on-demand" actions (activate, submit, quote), amber reserved
+     strictly for usage/threshold warnings so it stays meaningful. */
+  --color-paper: #F3F5F8;
+  --color-surface: #FFFFFF;
+  --color-ink: #12172B;
+  --color-ink-soft: #545B72;
+  --color-line: #E1E5EC;
+
+  --color-ultra: #1F2A5C;
+  --color-ultra-soft: #E9EBF6;
+
+  --color-flare: #FF5A36;
+  --color-flare-soft: #FFE7E0;
+
+  --color-amber: #F2A93B;
+  --color-amber-soft: #FDF1DD;
+
+  --color-mint: #1D9A6C;
+  --color-mint-soft: #E1F5EC;
+
+  --color-danger: #E24C4B;
+  --color-danger-soft: #FBE6E5;
+
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--color-flare);
+  color: white;
+}
+
+/* Signature element: a coverage countdown ring on active-policy cards.
+   Progress is set inline per-card via --pct (0-100). */
+.coverage-ring {
+  --pct: 0;
+  background: conic-gradient(var(--color-flare) calc(var(--pct) * 1%), var(--color-line) 0);
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.live-dot {
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
