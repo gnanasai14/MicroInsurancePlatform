@@ -31,11 +31,14 @@ public class DataSeeder implements CommandLineRunner {
     public void run(String... args) {
         if (!userRepository.existsByUsername("admin")) {
             userRepository.save(User.builder()
+                    .firstName("System")
+                    .lastName("Admin")
                     .username("admin")
                     .email("admin@odmip.local")
                     .sms("+15555551234")
                     .password(passwordEncoder.encode("Admin@123"))
                     .enabled(true)
+                    .emailVerified(true)
                     .roles(Set.of(Role.ROLE_ADMIN, Role.ROLE_USER))
                     .build());
         }
@@ -49,6 +52,7 @@ public class DataSeeder implements CommandLineRunner {
                     .basePremium(new BigDecimal("4.99"))
                     .defaultDurationHours(24)
                     .riskCategory("LOW")
+                    .usageCap(24.0)
                     .active(true)
                     .build());
         }
@@ -62,6 +66,7 @@ public class DataSeeder implements CommandLineRunner {
                     .basePremium(new BigDecimal("2.49"))
                     .defaultDurationHours(48)
                     .riskCategory("MEDIUM")
+                    .usageCap(48.0)
                     .active(true)
                     .build());
         }

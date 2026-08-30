@@ -7,7 +7,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/claimdb
     username: postgres
-    password: root
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -22,6 +22,14 @@ odmip:
     claim-events-topic-arn: "arn:aws:sns:us-east-1:000000000000:odmip-claim-events"
     fraud-events-topic-arn: "arn:aws:sns:us-east-1:000000000000:odmip-fraud-events"
     region: us-east-1
+
+# Must match user-service's app.jwt.secret exactly - claims-service validates
+# tokens user-service issues via the same shared HMAC key.
+# DEV ONLY secret - move to an env var / AWS Secrets Manager before anything
+# resembling production.
+app:
+  jwt:
+    secret: "od-mip-super-secret-key-change-me-before-prod-0123456789"
 
 springdoc:
   swagger-ui:

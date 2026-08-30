@@ -8,6 +8,7 @@ import com.odmip.claims.entity.ClaimStatus;
 import com.odmip.claims.service.ClaimService;
 import com.odmip.claims.service.ClaimsAnalyticsService;
 import com.odmip.common.dto.ApiResponse;
+import com.odmip.common.exception.BusinessRuleException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -34,7 +35,13 @@ public class ClaimController {
     @PatchMapping("/{id}/status")
     @Operation(summary = "Update claim status")
     public ApiResponse<Claim> updateStatus(@PathVariable Long id, @Valid @RequestBody ClaimStatusUpdateRequest request) {
-        ClaimStatus newStatus = ClaimStatus.valueOf(request.newStatus().toUpperCase());
+        ClaimStatus newStatus;
+        try {
+            newStatus = ClaimStatus.valueOf(request.newStatus().toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new BusinessRuleException("Invalid status '" + request.newStatus() + "'. Valid values: "
+                    + java.util.Arrays.toString(ClaimStatus.values()));
+        }
         return ApiResponse.ok("Status updated", claimService.updateStatus(id, newStatus, request.note()));
     }
 

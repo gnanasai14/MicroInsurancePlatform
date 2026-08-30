@@ -1,19 +1,14 @@
-package com.odmip.user.config;
+package com.odmip.pricing.config;
 
-import com.odmip.user.security.AppUserDetailsService;
-import com.odmip.user.security.JwtAuthFilter;
+import com.odmip.pricing.security.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -23,25 +18,26 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 /**
- * Role-Based Access Control:
- *  - /api/auth/**            -> public
- *  - /api/policies/**  (all) -> public (internal cross-service calls from pricing/claims services)
- *  - /api/admin/**           -> ADMIN only
- *  - /api/templates/** (GET) -> any authenticated
- *  - /api/templates/** (write) -> ADMIN only
+ * pricing-service previously had no authentication at all - every endpoint,
+ * including pricing-rule admin CRUD and coupon creation, was open to anyone
+ * who could reach port 8082. This validates the same JWT user-service issues
+ * (shared HMAC secret, app.jwt.secret - must match user-service's value in
+ * both environments) rather than re-implementing login here.
+ *
+ *  - /swagger-ui/**, /v3/api-docs/**, /h2-console/**  -> public (dev tooling)
+ *  - write endpoints on pricing rules & coupons        -> ADMIN only
+ *  - everything else                                   -> any authenticated user
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final AppUserDetailsService userDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
 
     @Value("${odmip.cors.allowed-origins:http://localhost:5173}")
     private String[] allowedOrigins;
 
-    public SecurityConfig(AppUserDetailsService userDetailsService, JwtAuthFilter jwtAuthFilter) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
@@ -59,40 +55,19 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/me").authenticated()
-                        .requestMatchers("/api/auth/**", "/api/users/register", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/templates/**").hasRole("ADMIN")
-                        .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/templates/**").hasRole("ADMIN")
-                        .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/templates/**").hasRole("ADMIN")
-                        .requestMatchers("/api/policies/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/pricing/rules/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/pricing/rules/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/pricing/rules/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/coupons").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())); // needed for h2-console
 

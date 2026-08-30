@@ -28,7 +28,7 @@ public class AppUserDetailsService implements UserDetailsService {
                 .authorities(user.getRoles().stream()
                         .map(r -> new SimpleGrantedAuthority(r.name()))
                         .toList())
-                .disabled(!user.isEnabled())
+                .disabled(!user.isEnabled() || !user.isEmailVerified())
                 .build();
     }
 }

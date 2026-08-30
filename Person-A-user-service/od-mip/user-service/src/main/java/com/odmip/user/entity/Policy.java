@@ -62,4 +62,15 @@ public class Policy {
         this.createdAt = LocalDateTime.now();
         if (this.status == null) this.status = PolicyStatus.DRAFT;
     }
+
+    /**
+     * Flattens template.usageCap onto the Policy JSON as a top-level
+     * "usageCap" field, matching what pricing-service's PolicyDTO expects.
+     * Lives here rather than as a persisted column since it's template-owned
+     * data - keeps a single source of truth instead of copying it at
+     * creation time and letting it drift if the template changes later.
+     */
+    public Double getUsageCap() {
+        return template != null ? template.getUsageCap() : null;
+    }
 }

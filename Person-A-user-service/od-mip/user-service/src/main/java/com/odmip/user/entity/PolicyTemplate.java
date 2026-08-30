@@ -45,6 +45,15 @@ public class PolicyTemplate {
     @Column(nullable = false)
     private String riskCategory;       // LOW, MEDIUM, HIGH - drives pricing/risk
 
+    /**
+     * Max usage units (hours, miles, etc. - unit is template-specific) allowed
+     * under this template before pricing-service's threshold alerts fire.
+     * Consumed by pricing-service's UsageTrackingService via Policy.getUsageCap().
+     * Nullable: templates with no meaningful cap (e.g. flat-fee cover) leave
+     * this unset, and pricing-service falls back to its own default.
+     */
+    private Double usageCap;
+
     @Column(nullable = false)
     private boolean active;
 }

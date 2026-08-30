@@ -14,6 +14,15 @@ spring:
       ddl-auto: update
     show-sql: true
 
+# Must match user-service's app.jwt.secret exactly - pricing-service validates
+# tokens user-service issues, using the same shared HMAC key, rather than
+# calling back to user-service to check every request.
+# DEV ONLY secret - move to an env var / AWS Secrets Manager before anything
+# resembling production.
+app:
+  jwt:
+    secret: "od-mip-super-secret-key-change-me-before-prod-0123456789"
+
 # Base URL of Person A's service - defaults to localhost since everyone runs
 # their own copy locally. When all 3 services run together (docker-compose),
 # this gets overridden to the service name, e.g. http://user-service:8081

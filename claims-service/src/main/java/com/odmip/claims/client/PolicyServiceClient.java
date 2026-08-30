@@ -1,5 +1,6 @@
 package com.odmip.claims.client;
 
+import com.odmip.common.dto.ApiResponse;
 import com.odmip.common.exception.UserServiceUnavailableException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,13 +25,23 @@ public class PolicyServiceClient {
         this.webClient = builder.baseUrl(baseUrl).build();
     }
 
+    /**
+     * user-service wraps every response in an ApiResponse<T> envelope
+     * ({success, message, data, timestamp}) - the actual policy payload is
+     * always under "data". Deserializing straight to Map/List<Map> (as this
+     * used to do) reads success/message/data/timestamp as if they WERE the
+     * policy fields, so id/status always came back null and isPolicyActive()
+     * always returned false. Unwrap the envelope here, once, so every caller
+     * gets the real policy fields.
+     */
     public List<Map<String, Object>> getUserPolicies(Long userId) {
         try {
-            List<Map<String, Object>> policies = webClient.get()
+            ApiResponse<List<Map<String, Object>>> response = webClient.get()
                     .uri("/api/policies/user/{userId}", userId)
                     .retrieve()
-                    .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {})
+                    .bodyToMono(new ParameterizedTypeReference<ApiResponse<List<Map<String, Object>>>>() {})
                     .block();
+            List<Map<String, Object>> policies = response != null ? response.getData() : null;
             return policies != null ? policies : Collections.emptyList();
         } catch (WebClientResponseException ex) {
             log.warn("WebClient response exception from user-service for user {}: {}", userId, ex.getMessage());
@@ -52,11 +63,12 @@ public class PolicyServiceClient {
 
     public Map<String, Object> getPolicy(Long policyId) {
         try {
-            return webClient.get()
+            ApiResponse<Map<String, Object>> response = webClient.get()
                     .uri("/api/policies/{id}", policyId)
                     .retrieve()
-                    .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                    .bodyToMono(new ParameterizedTypeReference<ApiResponse<Map<String, Object>>>() {})
                     .block();
+            return response != null ? response.getData() : null;
         } catch (WebClientResponseException ex) {
             log.warn("WebClient response exception from user-service for policy {}: {}", policyId, ex.getMessage());
             if (ex.getStatusCode().is5xxServerError()) {

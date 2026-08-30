@@ -17,6 +17,17 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  mail:
+    host: ${SMTP_HOST:smtp.gmail.com}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 app:
   jwt:
@@ -43,3 +54,10 @@ odmip:
     enabled: true
     region: us-east-1
     policy-events-topic-arn: "arn:aws:sns:us-east-1:000000000000:odmip-policy-events"
+  otp:
+    # When false (default - no SMTP setup needed for local dev/demo), the OTP is
+    # logged to this service's console instead of emailed - check the terminal
+    # running user-service for a line like "OTP for jane: 482913".
+    # Set true + fill in spring.mail.* above with real SMTP creds to send real emails.
+    mail-enabled: false
+    expiry-minutes: 10

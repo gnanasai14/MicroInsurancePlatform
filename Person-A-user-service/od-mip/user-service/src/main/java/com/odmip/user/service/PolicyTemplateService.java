@@ -35,6 +35,7 @@ public class PolicyTemplateService {
                 .basePremium(req.basePremium())
                 .defaultDurationHours(req.defaultDurationHours())
                 .riskCategory(req.riskCategory())
+                .usageCap(req.usageCap())
                 .active(true)
                 .build();
         return templateRepository.save(template);

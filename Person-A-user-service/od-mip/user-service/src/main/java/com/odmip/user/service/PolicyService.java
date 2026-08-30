@@ -5,8 +5,10 @@ import com.odmip.common.exception.ResourceNotFoundException;
 import com.odmip.user.dto.PolicyCreateRequest;
 import com.odmip.user.dto.PolicyPatchRequest;
 import com.odmip.user.entity.Policy;
+import com.odmip.user.entity.PolicyPremiumHistory;
 import com.odmip.user.entity.PolicyStatus;
 import com.odmip.user.entity.PolicyTemplate;
+import com.odmip.user.repository.PolicyPremiumHistoryRepository;
 import com.odmip.user.repository.PolicyRepository;
 import com.odmip.user.repository.PolicyTemplateRepository;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,13 @@ public class PolicyService {
 
     private final PolicyRepository policyRepository;
     private final PolicyTemplateRepository templateRepository;
+    private final PolicyPremiumHistoryRepository premiumHistoryRepository;
 
-    public PolicyService(PolicyRepository policyRepository, PolicyTemplateRepository templateRepository) {
+    public PolicyService(PolicyRepository policyRepository, PolicyTemplateRepository templateRepository,
+                          PolicyPremiumHistoryRepository premiumHistoryRepository) {
         this.policyRepository = policyRepository;
         this.templateRepository = templateRepository;
+        this.premiumHistoryRepository = premiumHistoryRepository;
     }
 
     /** Creates an on-demand policy from a template. Starts life as DRAFT; activated separately. */
@@ -50,7 +55,9 @@ public class PolicyService {
                 .endDate(start.plusHours(hours))
                 .build();
 
-        return policyRepository.save(policy);
+        Policy saved = policyRepository.save(policy);
+        recordPremiumHistory(saved);
+        return saved;
     }
 
     public Policy activate(Long policyId) {
@@ -97,9 +104,11 @@ public class PolicyService {
 
     public Policy patchPolicy(Long id, PolicyPatchRequest req) {
         Policy policy = getById(id);
+        boolean premiumChanged = false;
 
-        if (req.premium() != null) {
+        if (req.premium() != null && req.premium().compareTo(policy.getPremiumAmount()) != 0) {
             policy.setPremiumAmount(req.premium());
+            premiumChanged = true;
         }
 
         if (req.status() != null) {
@@ -107,7 +116,23 @@ public class PolicyService {
             policy.setStatus(req.status());
         }
 
-        return policyRepository.save(policy);
+        Policy saved = policyRepository.save(policy);
+        if (premiumChanged) {
+            recordPremiumHistory(saved);
+        }
+        return saved;
+    }
+
+    /** Used by pricing-service's dashboard to compute total premium paid across a user's policies. */
+    public List<PolicyPremiumHistory> getPremiumHistory(Long policyId) {
+        return premiumHistoryRepository.findByPolicyIdOrderByChangedAtAsc(policyId);
+    }
+
+    private void recordPremiumHistory(Policy policy) {
+        premiumHistoryRepository.save(PolicyPremiumHistory.builder()
+                .policyId(policy.getId())
+                .premiumAmount(policy.getPremiumAmount())
+                .build());
     }
 
     public Policy getById(Long id) {

@@ -13,5 +13,6 @@ public record TemplateRequest(
         @NotNull @Positive BigDecimal baseCoverageAmount,
         @NotNull @Positive BigDecimal basePremium,
         @NotNull @Positive Integer defaultDurationHours,
-        @NotBlank String riskCategory
+        @NotBlank String riskCategory,
+        Double usageCap // optional - leave null for templates with no meaningful usage cap
 ) {}

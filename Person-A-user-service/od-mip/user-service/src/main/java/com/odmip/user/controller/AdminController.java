@@ -8,6 +8,7 @@ import com.odmip.user.repository.UserRepository;
 import com.odmip.user.service.PolicyService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,10 @@ import java.util.Map;
 /**
  * Admin Panel (Week 2 scope: read/manage endpoints).
  * Locked to ROLE_ADMIN in SecurityConfig ("/api/admin/**").
- * Week 3+: pricing-rule management wired in via PricingRuleServiceClient.
+ * pricing-rule management wired in via PricingRuleServiceClient - now that
+ * pricing-service enforces auth on its write endpoints, we forward this
+ * request's own Authorization header through rather than calling pricing
+ * anonymously (see PricingRuleServiceClient for why).
  */
 @RestController
 @RequestMapping("/api/admin")
@@ -54,28 +58,37 @@ public class AdminController {
     }
 
     @GetMapping("/pricing-rules")
-    public ApiResponse<List<Map<String, Object>>> getPricingRules() {
-        return ApiResponse.ok(pricingRuleServiceClient.getAllRules());
+    public ApiResponse<List<Map<String, Object>>> getPricingRules(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+        return ApiResponse.ok(pricingRuleServiceClient.getAllRules(authHeader));
     }
 
     @GetMapping("/pricing-rules/{id}")
-    public ApiResponse<Map<String, Object>> getPricingRule(@PathVariable Long id) {
-        return ApiResponse.ok(pricingRuleServiceClient.getRuleById(id));
+    public ApiResponse<Map<String, Object>> getPricingRule(
+            @PathVariable Long id,
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+        return ApiResponse.ok(pricingRuleServiceClient.getRuleById(id, authHeader));
     }
 
     @PostMapping("/pricing-rules")
-    public ApiResponse<Map<String, Object>> createPricingRule(@RequestBody Map<String, Object> rule) {
-        return ApiResponse.ok("Pricing rule created successfully", pricingRuleServiceClient.createRule(rule));
+    public ApiResponse<Map<String, Object>> createPricingRule(
+            @RequestBody Map<String, Object> rule,
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+        return ApiResponse.ok("Pricing rule created successfully", pricingRuleServiceClient.createRule(rule, authHeader));
     }
 
     @PutMapping("/pricing-rules/{id}")
-    public ApiResponse<Map<String, Object>> updatePricingRule(@PathVariable Long id, @RequestBody Map<String, Object> rule) {
-        return ApiResponse.ok("Pricing rule updated successfully", pricingRuleServiceClient.updateRule(id, rule));
+    public ApiResponse<Map<String, Object>> updatePricingRule(
+            @PathVariable Long id, @RequestBody Map<String, Object> rule,
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+        return ApiResponse.ok("Pricing rule updated successfully", pricingRuleServiceClient.updateRule(id, rule, authHeader));
     }
 
     @DeleteMapping("/pricing-rules/{id}")
-    public ApiResponse<Void> deletePricingRule(@PathVariable Long id) {
-        pricingRuleServiceClient.deleteRule(id);
+    public ApiResponse<Void> deletePricingRule(
+            @PathVariable Long id,
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+        pricingRuleServiceClient.deleteRule(id, authHeader);
         return ApiResponse.ok("Pricing rule deleted successfully", null);
     }
 }

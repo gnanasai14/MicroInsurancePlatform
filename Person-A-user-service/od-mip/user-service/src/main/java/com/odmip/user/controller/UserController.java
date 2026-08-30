@@ -2,8 +2,8 @@ package com.odmip.user.controller;
 
 import com.odmip.common.dto.ApiResponse;
 import com.odmip.common.exception.ResourceNotFoundException;
-import com.odmip.user.dto.AuthResponse;
 import com.odmip.user.dto.RegisterRequest;
+import com.odmip.user.dto.RegisterResponse;
 import com.odmip.user.dto.UpdatePreferencesRequest;
 import com.odmip.user.dto.UserProfileResponse;
 import com.odmip.user.dto.UserPreferencesResponse;
@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ApiResponse<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
-        return ApiResponse.ok("User registered successfully", authService.register(request));
+    public ApiResponse<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
+        return ApiResponse.ok("Verification code sent", authService.register(request));
     }
 
     @GetMapping("/{id}/profile")

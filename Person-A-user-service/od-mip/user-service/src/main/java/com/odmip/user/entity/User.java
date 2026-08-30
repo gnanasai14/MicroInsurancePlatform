@@ -29,6 +29,12 @@ public class User {
     private String username;
 
     @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -39,6 +45,21 @@ public class User {
 
     @Column(nullable = false)
     private boolean enabled;
+
+    /**
+     * A newly registered user is unverified until they confirm the OTP sent
+     * to their email. Login is blocked until this is true (see
+     * AppUserDetailsService). Admin-seeded accounts (DataSeeder) are created
+     * with this already true.
+     */
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean emailVerified = false;
+
+    @Column(length = 6)
+    private String otpCode;
+
+    private LocalDateTime otpExpiresAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

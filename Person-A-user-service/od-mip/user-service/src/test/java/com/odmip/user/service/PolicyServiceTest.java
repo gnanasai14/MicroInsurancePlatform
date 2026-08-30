@@ -4,6 +4,7 @@ import com.odmip.common.exception.BusinessRuleException;
 import com.odmip.user.dto.PolicyPatchRequest;
 import com.odmip.user.entity.Policy;
 import com.odmip.user.entity.PolicyStatus;
+import com.odmip.user.repository.PolicyPremiumHistoryRepository;
 import com.odmip.user.repository.PolicyRepository;
 import com.odmip.user.repository.PolicyTemplateRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +30,9 @@ public class PolicyServiceTest {
 
     @Mock
     private PolicyTemplateRepository templateRepository;
+
+    @Mock
+    private PolicyPremiumHistoryRepository premiumHistoryRepository;
 
     @InjectMocks
     private PolicyService policyService;

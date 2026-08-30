@@ -78,4 +78,40 @@ public class PolicyServiceClient {
                     return Mono.empty();
                 });
     }
+
+    /**
+     * Was called by DashboardService but never existed on this class - the
+     * missing method that broke the Docker build. Matches the real
+     * GET /api/policies/{id}/premium-history endpoint added to user-service
+     * (see FIXES.md item 2).
+     */
+    public Mono<java.util.List<com.odmip.pricing.dto.PremiumHistoryDTO>> getPremiumHistory(Long policyId) {
+        return webClient.get()
+                .uri("/api/policies/{id}/premium-history", policyId)
+                .retrieve()
+                .bodyToMono(new org.springframework.core.ParameterizedTypeReference<ApiResponse<java.util.List<com.odmip.pricing.dto.PremiumHistoryDTO>>>() {})
+                .map(ApiResponse::data)
+                .onErrorResume(ex -> {
+                    log.warn("Could not fetch premium history for policy {}: {}", policyId, ex.getMessage());
+                    return Mono.just(java.util.Collections.emptyList());
+                });
+    }
+
+    /**
+     * Was called by PremiumCalculatorService and UsageTrackingService (for
+     * email notifications) but never existed on this class - also part of
+     * the missing-method build failure. Matches the real
+     * GET /api/auth/users/{id} endpoint on user-service.
+     */
+    public Mono<com.odmip.common.dto.UserDTO> getUser(Long userId) {
+        return webClient.get()
+                .uri("/api/auth/users/{id}", userId)
+                .retrieve()
+                .bodyToMono(new org.springframework.core.ParameterizedTypeReference<ApiResponse<com.odmip.common.dto.UserDTO>>() {})
+                .map(ApiResponse::data)
+                .onErrorResume(ex -> {
+                    log.warn("Could not fetch user info for userId {}: {}", userId, ex.getMessage());
+                    return Mono.empty();
+                });
+    }
 }
