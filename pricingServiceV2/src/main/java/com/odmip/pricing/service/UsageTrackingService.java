@@ -3,6 +3,7 @@ package com.odmip.pricing.service;
 import com.odmip.common.dto.PolicyDTO;
 import com.odmip.pricing.client.PolicyServiceClient;
 import com.odmip.pricing.dto.UsageRequest;
+import com.odmip.pricing.dto.UsageResponse;
 import com.odmip.pricing.entity.PolicyAlertState;
 import com.odmip.pricing.entity.UsageLog;
 import com.odmip.pricing.repository.PolicyAlertStateRepository;
@@ -32,7 +33,13 @@ public class UsageTrackingService {
         this.alertStateRepository = alertStateRepository;
     }
 
-    public UsageLog record(UsageRequest req) {
+    /**
+     * Returns UsageResponse (not just the saved log) so callers - specifically
+     * the frontend - can see immediately whether this log just crossed a
+     * usage-cap threshold, instead of that only being visible in this
+     * service's own server log.
+     */
+    public UsageResponse record(UsageRequest req) {
         UsageLog usage = UsageLog.builder()
                 .policyId(req.policyId())
                 .userId(req.userId())
@@ -41,13 +48,16 @@ public class UsageTrackingService {
                 .build();
         UsageLog saved = usageLogRepository.save(usage);
 
+        double total = totalUsage(req.policyId());
+        double cap = 100.0; // default cap, overridden below if the policy's template sets one
+        double percentage;
+        String thresholdCrossed = null;
+
         // Threshold detection (80% / 100% of usage cap) - each threshold alerts once per policy.
         try {
-            double total = totalUsage(req.policyId());
             PolicyDTO policy = policyServiceClient.getPolicy(req.policyId()).block();
-            double cap = (policy != null && policy.usageCap() != null) ? policy.usageCap() : 100.0; // default cap is 100.0
-
-            double percentage = (total / cap) * 100.0;
+            cap = (policy != null && policy.usageCap() != null) ? policy.usageCap() : 100.0;
+            percentage = (total / cap) * 100.0;
 
             PolicyAlertState alertState = alertStateRepository.findById(req.policyId())
                     .orElse(PolicyAlertState.builder().policyId(req.policyId()).build());
@@ -57,16 +67,19 @@ public class UsageTrackingService {
                 alertState.setCapReachedSent(true);
                 alertState.setWarning80Sent(true); // reaching 100% implies 80% is also covered
                 alertStateRepository.save(alertState);
+                thresholdCrossed = "CAP_REACHED";
             } else if (percentage >= 80.0 && !alertState.isWarning80Sent()) {
                 sendThresholdAlert(req, policy, total, cap, percentage, "WARNING_80_PERCENT", 80.0);
                 alertState.setWarning80Sent(true);
                 alertStateRepository.save(alertState);
+                thresholdCrossed = "WARNING_80_PERCENT";
             }
         } catch (Exception ex) {
             log.warn("Failed to check usage threshold alert for policy {}: {}", req.policyId(), ex.getMessage());
+            percentage = (total / cap) * 100.0;
         }
 
-        return saved;
+        return new UsageResponse(saved, total, cap, percentage, thresholdCrossed);
     }
 
     private void sendThresholdAlert(UsageRequest req, PolicyDTO policy, double total, double cap,

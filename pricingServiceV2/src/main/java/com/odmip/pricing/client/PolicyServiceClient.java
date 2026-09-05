@@ -114,4 +114,21 @@ public class PolicyServiceClient {
                     return Mono.empty();
                 });
     }
+
+    /**
+     * Used when a customer accepts (pays for) a quote tied to a still-DRAFT
+     * policy - activates it as part of confirming the purchase. Safe to call
+     * on an already-ACTIVE policy; user-service's own state-machine check
+     * will just reject the no-op transition, which we swallow here.
+     */
+    public Mono<Void> activatePolicy(Long policyId) {
+        return webClient.post()
+                .uri("/api/policies/{id}/activate", policyId)
+                .retrieve()
+                .bodyToMono(Void.class)
+                .onErrorResume(ex -> {
+                    log.info("Policy {} activation skipped (likely already active): {}", policyId, ex.getMessage());
+                    return Mono.empty();
+                });
+    }
 }

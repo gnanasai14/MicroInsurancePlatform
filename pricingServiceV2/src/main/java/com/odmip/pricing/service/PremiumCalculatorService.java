@@ -1,11 +1,14 @@
 package com.odmip.pricing.service;
 
+import com.odmip.common.exception.BusinessRuleException;
+import com.odmip.common.exception.ResourceNotFoundException;
 import com.odmip.pricing.client.PolicyServiceClient;
 import com.odmip.pricing.dto.PremiumQuoteRequest;
 import com.odmip.pricing.dto.PremiumQuoteResponse;
 import com.odmip.pricing.entity.PricingRule;
 import com.odmip.pricing.entity.RuleType;
 import com.odmip.pricing.entity.Quote;
+import com.odmip.pricing.entity.QuoteStatus;
 import com.odmip.pricing.repository.PricingRuleRepository;
 import com.odmip.pricing.repository.QuoteRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +28,10 @@ import java.util.Optional;
  *  3. Apply risk / location / usage multipliers (Dynamic Pricing Engine).
  *  4. Apply time-of-day surge pricing multipliers.
  *  5. Apply coupon discounts (delegated to CouponService, supports stacking & limits).
- *  6. Persist generated quote and propagate to user-service if policyId exists.
+ *  6. Persist as a PENDING quote - nothing is pushed to the policy or emailed
+ *     yet. That only happens once the customer explicitly accepts (pays for)
+ *     the quote via acceptQuote() - see that method for why this changed
+ *     from the original "push immediately" behavior.
  */
 @Service
 public class PremiumCalculatorService {
@@ -78,7 +84,7 @@ public class PremiumCalculatorService {
                 try {
                     LocalTime start = LocalTime.parse(parts[0].trim());
                     LocalTime end = LocalTime.parse(parts[1].trim());
-                    boolean matches = false;
+                    boolean matches;
                     if (start.isBefore(end)) {
                         matches = !now.isBefore(start) && !now.isAfter(end);
                     } else { // Overnight range, e.g. 23:00 to 04:00
@@ -109,7 +115,7 @@ public class PremiumCalculatorService {
         BigDecimal finalPremium = premiumBeforeDiscount.subtract(discount).setScale(2, RoundingMode.HALF_UP);
         if (finalPremium.compareTo(BigDecimal.ZERO) < 0) finalPremium = BigDecimal.ZERO;
 
-        // Step 5: Persist generated quote in pricing database
+        // Step 5: Persist as PENDING - no policy push, no email yet. See acceptQuote().
         Quote quoteRecord = Quote.builder()
                 .policyId(req.policyId())
                 .userId(req.userId())
@@ -119,27 +125,68 @@ public class PremiumCalculatorService {
                 .couponCode(req.couponCode())
                 .discountAmount(discount)
                 .createdAt(LocalDateTime.now())
+                .status(QuoteStatus.PENDING)
                 .build();
-        quoteRepository.save(quoteRecord);
-
-        // Step 6: Propagate calculated premium to Vinay's endpoint if policyId exists
-        if (req.policyId() != null) {
-            policyServiceClient.updatePolicyPremium(req.policyId(), finalPremium).block();
-        }
-
-        // Send email confirmation
-        try {
-            com.odmip.common.dto.UserDTO userDto = policyServiceClient.getUser(req.userId()).block();
-            if (userDto != null && userDto.email() != null) {
-                String policyIdOrNum = req.policyId() != null ? String.valueOf(req.policyId()) : "NEW_QUOTE";
-                emailNotificationService.sendQuoteConfirmation(userDto.email(), policyIdOrNum, finalPremium);
-            }
-        } catch (Exception ex) {
-            appliedRules.add("Notification Error: " + ex.getMessage());
-        }
+        Quote saved = quoteRepository.save(quoteRecord);
 
         return new PremiumQuoteResponse(
+                saved.getId(), saved.getStatus().name(),
                 req.basePremium(), appliedRules, multiplier, premiumBeforeDiscount, discount, finalPremium);
+    }
+
+    /**
+     * Customer clicked "Pay." This is the moment the quote actually becomes
+     * real: the premium is pushed to the policy (populating premium
+     * history), the policy is activated if it was still DRAFT, and a
+     * confirmation email goes out. Previously all of this happened the
+     * instant a quote was generated - before the customer had agreed to
+     * anything - which is why premium history never lined up with an actual
+     * purchase decision.
+     */
+    public Quote acceptQuote(Long quoteId) {
+        Quote quote = quoteRepository.findById(quoteId)
+                .orElseThrow(() -> new ResourceNotFoundException("No quote with id " + quoteId));
+        if (quote.getStatus() != QuoteStatus.PENDING) {
+            throw new BusinessRuleException("This quote is already " + quote.getStatus() + " and can't be accepted again.");
+        }
+
+        if (quote.getPolicyId() != null) {
+            policyServiceClient.updatePolicyPremium(quote.getPolicyId(), quote.getFinalPremium()).block();
+            policyServiceClient.activatePolicy(quote.getPolicyId()).block();
+        }
+
+        quote.setStatus(QuoteStatus.ACCEPTED);
+        quote.setDecidedAt(LocalDateTime.now());
+        Quote saved = quoteRepository.save(quote);
+
+        try {
+            com.odmip.common.dto.UserDTO userDto = policyServiceClient.getUser(quote.getUserId()).block();
+            if (userDto != null && userDto.email() != null) {
+                String policyIdOrNum = quote.getPolicyId() != null ? String.valueOf(quote.getPolicyId()) : "NEW_QUOTE";
+                emailNotificationService.sendQuoteConfirmation(userDto.email(), policyIdOrNum, quote.getFinalPremium());
+            }
+        } catch (Exception ignored) {
+            // Non-fatal - the purchase itself already succeeded above.
+        }
+
+        return saved;
+    }
+
+    /** Customer backed out at the payment step. No side effects beyond marking it cancelled. */
+    public Quote cancelQuote(Long quoteId) {
+        Quote quote = quoteRepository.findById(quoteId)
+                .orElseThrow(() -> new ResourceNotFoundException("No quote with id " + quoteId));
+        if (quote.getStatus() != QuoteStatus.PENDING) {
+            throw new BusinessRuleException("This quote is already " + quote.getStatus() + ".");
+        }
+        quote.setStatus(QuoteStatus.CANCELLED);
+        quote.setDecidedAt(LocalDateTime.now());
+        return quoteRepository.save(quote);
+    }
+
+    /** Admin visibility into every quote a customer has actually paid for - "coverage taken." */
+    public List<Quote> getAcceptedQuotes() {
+        return quoteRepository.findByStatusOrderByDecidedAtDesc(QuoteStatus.ACCEPTED);
     }
 
     private BigDecimal findMultiplier(RuleType type, String value, List<String> appliedRules) {

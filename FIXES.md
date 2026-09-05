@@ -186,6 +186,54 @@ Every fix above is additive or corrects existing broken logic. Nothing was
 deleted except a stale `pricingServiceV2/target` build-output folder, which
 Maven regenerates and shouldn't be version-controlled anyway.
 
+## New feature: quote → review → payment → purchase flow (Policy↔Pricing link)
+Previously, generating a quote immediately pushed the premium to the policy
+and sent a confirmation email - before the customer had actually agreed to
+anything. Restructured so nothing is committed until the customer explicitly
+pays:
+
+- `Quote` gained a `status` (`PENDING` → `ACCEPTED`/`CANCELLED`) and
+  `decidedAt`. `POST /api/pricing/quote` now only calculates and saves a
+  `PENDING` quote - no policy push, no email.
+- New `POST /api/pricing/quote/{id}/accept`: pushes the premium to the
+  policy, activates it if still `DRAFT` (new `PolicyServiceClient.activatePolicy`),
+  sends the confirmation email, marks the quote `ACCEPTED`.
+- New `POST /api/pricing/quote/{id}/cancel`: marks it `CANCELLED`, no side effects.
+- New `GET /api/pricing/quote/accepted` (ROLE_ADMIN): every quote a customer
+  has actually paid for - "coverage taken," visible in Admin Panel.
+- Frontend: policy cards gained a "Get quote for this policy" button that
+  pre-fills the quote form and carries the `policyId` through. After a
+  quote, the UI shows "Do you want to proceed?" → a payment screen with
+  Pay/Cancel → a confirmation screen. Only clicking Pay actually updates
+  the policy - this is what finally makes "Show premium history" populate
+  with real data.
+- Fixed the seed data while in here: `1-Day Travel Cover` (LOW risk) was
+  priced higher than `Weekend Bike Insurance` (MEDIUM risk), which doesn't
+  make sense. Recalculated both from a consistent formula
+  (coverage × risk factor × duration × rate constant) so risk category now
+  correctly drives price in the seed data, not just in live quote multipliers.
+
+## New feature: wired up backend features that had no UI
+Three pricing-service features existed and worked, but were never reachable
+outside Swagger:
+- **Analytics summary** (revenue by risk category, coupon redemption counts)
+  - now shown in Admin Panel.
+- **Pricing-rule CRUD** - Admin Panel could only view rules before; now has
+  full create/edit/delete forms, calling pricing-service directly instead
+  of the old read-only proxy through user-service.
+- **Coupon validation without redeeming** - added a "check a code" tool on
+  the Pricing page so a customer can confirm a coupon works before
+  committing to a quote.
+
+## New feature: usage-threshold alerts are now visible in the frontend
+Previously, the 80%/100% usage-cap alert only existed as a server log line
+in pricing-service - nothing in the UI ever showed it fired.
+`POST /api/usage` now returns `UsageResponse` (total usage, cap, percentage,
+and `thresholdCrossed`) instead of just the raw saved log row. The frontend's
+Log Usage panel shows a live amber/red banner the moment a threshold is
+newly crossed, matching the same once-per-policy dedup logic already in
+`PolicyAlertState`.
+
 ## New feature: email-OTP registration + role-aware login
 
 **Note on a bug introduced while adding this, then fixed:** the first pass

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useEnsureUserId } from '../app/useEnsureUserId'
 import {
   useActivatePolicyMutation, useCancelPolicyMutation, useCreatePolicyMutation,
@@ -17,12 +18,26 @@ function timeRemainingPct(p: Policy): number {
 }
 
 function PolicyCard({ policy }: { policy: Policy }) {
+  const navigate = useNavigate()
   const [activate, { isLoading: activating }] = useActivatePolicyMutation()
   const [cancel, { isLoading: cancelling }] = useCancelPolicyMutation()
   const [showHistory, setShowHistory] = useState(false)
   const { data: history } = usePremiumHistoryQuery(policy.id, { skip: !showHistory })
 
   const pct = policy.status === 'ACTIVE' ? timeRemainingPct(policy) : policy.status === 'DRAFT' ? 100 : 0
+
+  function getQuoteForThisPolicy() {
+    const durationHours = Math.round((new Date(policy.endDate).getTime() - new Date(policy.startDate).getTime()) / 3_600_000)
+    navigate('/pricing', {
+      state: {
+        policyId: policy.id,
+        policyNumber: policy.policyNumber,
+        basePremium: policy.premiumAmount,
+        riskCategory: policy.template?.riskCategory ?? 'MEDIUM',
+        durationHours: durationHours > 0 ? durationHours : 24,
+      },
+    })
+  }
 
   return (
     <Card>
@@ -62,6 +77,9 @@ function PolicyCard({ policy }: { policy: Policy }) {
         <Button variant="ghost" onClick={() => setShowHistory((v) => !v)}>
           {showHistory ? 'Hide' : 'Show'} premium history
         </Button>
+        {(policy.status === 'DRAFT' || policy.status === 'ACTIVE') && (
+          <Button variant="ghost" onClick={getQuoteForThisPolicy}>Get quote for this policy</Button>
+        )}
       </div>
 
       {showHistory && (

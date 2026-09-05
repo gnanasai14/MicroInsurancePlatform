@@ -73,12 +73,28 @@ export interface PremiumQuoteRequest {
 }
 
 export interface PremiumQuoteResponse {
+  quoteId: number
+  status: 'PENDING' | 'ACCEPTED' | 'CANCELLED'
   basePremium: number
   appliedRules: string[]
   multiplierApplied: number
   premiumBeforeDiscount: number
   discountApplied: number
   finalPremium: number
+}
+
+export interface Quote {
+  id: number
+  policyId: number | null
+  userId: number
+  riskCategory: string
+  basePremium: number
+  finalPremium: number
+  couponCode: string | null
+  discountAmount: number
+  createdAt: string
+  status: 'PENDING' | 'ACCEPTED' | 'CANCELLED'
+  decidedAt: string | null
 }
 
 export interface Coupon {
@@ -100,6 +116,14 @@ export interface UsageLog {
   usageType: string
   quantity: number
   recordedAt: string
+}
+
+export interface UsageResponse {
+  usageLog: UsageLog
+  totalUsage: number
+  usageCap: number | null
+  percentage: number
+  thresholdCrossed: 'WARNING_80_PERCENT' | 'CAP_REACHED' | null
 }
 
 export interface DashboardSummary {

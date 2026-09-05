@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { RootState } from '../app/store'
 import type {
   ApiResponse, Coupon, DashboardSummary, PremiumQuoteRequest, PremiumQuoteResponse,
-  PricingRule, UsageLog,
+  PricingRule, Quote, UsageLog, UsageResponse,
 } from '../types'
 
 const BASE = import.meta.env.VITE_PRICING_API_URL ?? 'http://localhost:8082'
@@ -17,12 +17,25 @@ export const pricingApi = createApi({
       return headers
     },
   }),
-  tagTypes: ['Coupon', 'Usage', 'Dashboard', 'Rule'],
+  tagTypes: ['Coupon', 'Usage', 'Dashboard', 'Rule', 'Quote'],
   endpoints: (builder) => ({
     quote: builder.mutation<PremiumQuoteResponse, PremiumQuoteRequest>({
       query: (body) => ({ url: '/api/pricing/quote', method: 'POST', body }),
       transformResponse: (r: ApiResponse<PremiumQuoteResponse>) => r.data,
-      invalidatesTags: ['Dashboard'],
+    }),
+    acceptQuote: builder.mutation<Quote, number>({
+      query: (id) => ({ url: `/api/pricing/quote/${id}/accept`, method: 'POST' }),
+      transformResponse: (r: ApiResponse<Quote>) => r.data,
+      invalidatesTags: ['Dashboard', 'Quote'],
+    }),
+    cancelQuote: builder.mutation<Quote, number>({
+      query: (id) => ({ url: `/api/pricing/quote/${id}/cancel`, method: 'POST' }),
+      transformResponse: (r: ApiResponse<Quote>) => r.data,
+    }),
+    acceptedQuotes: builder.query<Quote[], void>({
+      query: () => '/api/pricing/quote/accepted',
+      transformResponse: (r: ApiResponse<Quote[]>) => r.data,
+      providesTags: ['Quote'],
     }),
     analyticsSummary: builder.query<{ revenueByRiskCategory: Record<string, number>; couponRedemptions: Record<string, number> }, void>({
       query: () => '/api/pricing/analytics/summary',
@@ -44,9 +57,9 @@ export const pricingApi = createApi({
       transformResponse: (r: ApiResponse<{ valid: boolean; message: string }>) => r.data,
     }),
 
-    recordUsage: builder.mutation<UsageLog, { policyId: number; userId: number; usageType: string; quantity: number }>({
+    recordUsage: builder.mutation<UsageResponse, { policyId: number; userId: number; usageType: string; quantity: number }>({
       query: (body) => ({ url: '/api/usage', method: 'POST', body }),
-      transformResponse: (r: ApiResponse<UsageLog>) => r.data,
+      transformResponse: (r: ApiResponse<UsageResponse>) => r.data,
       invalidatesTags: ['Usage', 'Dashboard'],
     }),
     usageForPolicy: builder.query<UsageLog[], number>({
@@ -76,6 +89,11 @@ export const pricingApi = createApi({
       transformResponse: (r: ApiResponse<PricingRule>) => r.data,
       invalidatesTags: ['Rule'],
     }),
+    updatePricingRule: builder.mutation<PricingRule, { id: number; body: Partial<PricingRule> }>({
+      query: ({ id, body }) => ({ url: `/api/pricing/rules/${id}`, method: 'PUT', body }),
+      transformResponse: (r: ApiResponse<PricingRule>) => r.data,
+      invalidatesTags: ['Rule'],
+    }),
     deletePricingRule: builder.mutation<void, number>({
       query: (id) => ({ url: `/api/pricing/rules/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Rule'],
@@ -84,9 +102,10 @@ export const pricingApi = createApi({
 })
 
 export const {
-  useQuoteMutation, useAnalyticsSummaryQuery,
+  useQuoteMutation, useAcceptQuoteMutation, useCancelQuoteMutation, useAcceptedQuotesQuery,
+  useAnalyticsSummaryQuery,
   useCouponsQuery, useCreateCouponMutation, useLazyValidateCouponQuery,
   useRecordUsageMutation, useUsageForPolicyQuery, useUsageTotalQuery,
   useDashboardQuery,
-  usePricingRulesQuery, useCreatePricingRuleMutation, useDeletePricingRuleMutation,
+  usePricingRulesQuery, useCreatePricingRuleMutation, useUpdatePricingRuleMutation, useDeletePricingRuleMutation,
 } = pricingApi

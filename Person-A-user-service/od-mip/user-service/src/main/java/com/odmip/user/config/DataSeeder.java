@@ -49,7 +49,7 @@ public class DataSeeder implements CommandLineRunner {
                     .name("1-Day Travel Cover")
                     .description("Short-term travel accident + baggage cover")
                     .baseCoverageAmount(new BigDecimal("5000"))
-                    .basePremium(new BigDecimal("4.99"))
+                    .basePremium(new BigDecimal("2.50")) // (5000/1000) x LOW(1.0) x (24h/24) x 0.5 rate
                     .defaultDurationHours(24)
                     .riskCategory("LOW")
                     .usageCap(24.0)
@@ -63,7 +63,7 @@ public class DataSeeder implements CommandLineRunner {
                     .name("Weekend Bike Insurance")
                     .description("Theft + damage cover for weekend rides")
                     .baseCoverageAmount(new BigDecimal("2000"))
-                    .basePremium(new BigDecimal("2.49"))
+                    .basePremium(new BigDecimal("3.00")) // (2000/1000) x MEDIUM(1.5) x (48h/24) x 0.5 rate
                     .defaultDurationHours(48)
                     .riskCategory("MEDIUM")
                     .usageCap(48.0)

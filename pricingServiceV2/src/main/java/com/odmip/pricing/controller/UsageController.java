@@ -2,6 +2,7 @@ package com.odmip.pricing.controller;
 
 import com.odmip.common.dto.ApiResponse;
 import com.odmip.pricing.dto.UsageRequest;
+import com.odmip.pricing.dto.UsageResponse;
 import com.odmip.pricing.entity.UsageLog;
 import com.odmip.pricing.service.UsageTrackingService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +24,7 @@ public class UsageController {
     }
 
     @PostMapping
-    public ApiResponse<UsageLog> record(@Valid @RequestBody UsageRequest request) {
+    public ApiResponse<UsageResponse> record(@Valid @RequestBody UsageRequest request) {
         return ApiResponse.ok("Usage recorded", usageTrackingService.record(request));
     }
 

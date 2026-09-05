@@ -38,4 +38,11 @@ public class Quote {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private QuoteStatus status = QuoteStatus.PENDING;
+
+    private LocalDateTime decidedAt; // set when accepted or cancelled
 }
